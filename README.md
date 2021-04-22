@@ -17,8 +17,12 @@ Also, there are terraform configurations to create **EKS - Fargate** (serverless
 ![Logical Architecture](./doc/images/logical_architecture.png)
 <p align="center">[Figure 1: Logical Architecture]</p>
 
-![Deployment Architecture](./doc/images/architecture.png)
+![Deployment Architecture](./doc/images/deployment_architecture.png)
 <p align="center">[Figure 2: Deployment Architecture]</p>
+
+![Kubernetes Diagram](./doc/images/kubernetes_diagram.png)
+<p align="center">[Figure 3: Kubernetes Diagram]</p>
+
 
 Frontend: Bootstrap/AJAX, nginx
 Backend: Python Django
@@ -112,7 +116,7 @@ export MINIKUBE_ACTIVE_DOCKERD="minikube"
 Then execute following command to use minikube docker engine.
 
 ~~~bash
-Command Prompt> eval $(minikube -p minikube docker-env)
+eval $(minikube -p minikube docker-env)
 ~~~
 
 You can now use docker at the command line of your host Mac/Linux machine to communicate with the docker daemon inside the Minikube VM:
