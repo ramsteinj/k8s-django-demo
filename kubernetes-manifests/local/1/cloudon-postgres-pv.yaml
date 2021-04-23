@@ -1,0 +1,26 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  namespace: cloudon
+  name: local-postgres-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: Immediate
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  namespace: cloudon
+  name: cloudon-postgres-pv
+  labels:
+    type: local
+    app: cloudon
+spec:
+  storageClassName: local-postgres-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  hostPath:
+    path: "/mnt/data/postgres"

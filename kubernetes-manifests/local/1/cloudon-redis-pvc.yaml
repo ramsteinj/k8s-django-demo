@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: cloudon
+  name: redis-pv-claim
+  labels:
+    app: cloudon
+spec:
+  storageClassName: local-redis-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

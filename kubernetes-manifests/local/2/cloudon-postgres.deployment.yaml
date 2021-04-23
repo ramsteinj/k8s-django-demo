@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: cloudon
+  name: rdb
+spec:
+  progressDeadlineSeconds: 1000
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rdb
+      tier: db
+  template:
+    metadata:
+      labels:
+        app: rdb
+        tier: db
+    spec:
+      restartPolicy: Always
+      containers:
+        - image: postgres:11.6
+          imagePullPolicy: "IfNotPresent"
+          name: postgres
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: cloudon-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-storage
+          resources:
+              requests:
+                cpu: "500m"
+                memory: "256Mi"
+              limits:
+                cpu: "1000m"
+                memory: "1Gi"
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim

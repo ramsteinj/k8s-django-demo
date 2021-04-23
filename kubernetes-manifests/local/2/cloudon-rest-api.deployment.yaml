@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: cloudon
+  name: rest-api
+  labels:
+    app: cloudon
+    tier: backend
+spec:
+  progressDeadlineSeconds: 1000
+  selector:
+    matchLabels:
+      app: rest-api
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: rest-api
+        tier: backend
+    spec:
+      restartPolicy: Always
+      initContainers:
+      # Wait for the database to get ready before starting the server, otherwise
+      # the server will crash
+      - name: check-mdb-ready
+        image: redis
+        command: ['sh', '-c', 
+          'until redis-cli -h $(REDIS_HOST) -p $(REDIS_PORT) ping; 
+          do echo waiting for database; sleep 2; done;']
+        envFrom:
+          - configMapRef:
+              name: cloudon-config
+      - name: check-ddb-ready
+        image: mongo
+        command: ["/bin/sh", "-c", 
+          "until mongo --host $(MONGO_HOST):$(MONGO_PORT) --eval 'db.adminCommand(\"ping\")'; 
+          do echo waiting for database; sleep 2; done;"]
+        envFrom:
+          - configMapRef:
+              name: cloudon-config
+      - name: check-rdb-ready
+        image: postgres
+        command: ['sh', '-c', 
+          'until pg_isready -h $(POSTGRES_HOST) -p $(POSTGRES_PORT); 
+          do echo waiting for database; sleep 2; done;']
+        envFrom:
+          - configMapRef:
+              name: cloudon-config
+      containers:
+      - name: rest-api
+        image: rest_api
+        envFrom:
+          - configMapRef:
+              name: cloudon-config
+        ports:
+        - name: http-server
+          containerPort: 8000
+        resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

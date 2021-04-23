@@ -1,0 +1,31 @@
+# This file creates a job that migrates the Postgres database. The job creates a
+# pod from the specified Docker image, wait for the database to get ready, and
+# run database migration once the Postgres database service is ready to receive
+# connections.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: cloudon
+  name: cloudon-rest-api-entrypoint
+spec:
+  template:
+    metadata:
+      name: cloudon-rest-api-entrypoint
+    spec:
+      initContainers:
+      - name: check-rdb-ready
+        image: postgres
+        command: ['sh', '-c', 
+          'until pg_isready -h $(POSTGRES_HOST) -p $(POSTGRES_PORT); 
+          do echo waiting for database; sleep 2; done;']
+        envFrom:
+          - configMapRef:
+              name: cloudon-config
+      containers:
+      - name: cloudon-rest-api-entrypoint
+        image: rest_api
+        command: [  "/bin/sh", "-c", "/cloudon/k8s-entrypoint.sh" ]
+        envFrom:
+          - configMapRef:
+              name: cloudon-config
+      restartPolicy: OnFailure

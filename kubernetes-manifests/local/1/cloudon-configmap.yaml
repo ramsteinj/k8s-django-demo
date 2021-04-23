@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: cloudon
+  name: cloudon-config
+data:
+  BILLING_REPORT_FILE_NAME_PREFIX: Billing-Report-Hourly
+  BILLING_REPORT_FILE_PATH: monitoring/Billing-Report-Hourly
+  BILLING_REPORT_IAM_ACCESS_KEY: AKIA5YQZGUPN6BGPFXVB
+  BILLING_REPORT_IAM_SECRET_KEY: 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
+  BILLING_REPORT_MANIFEST_FILE_NAME: Billing-Report-Hourly-Manifest.json
+  BILLING_REPORT_REGION: ap-northeast-2
+  BILLING_REPORT_S3_BUCKET_NAMES: bsg-billing-report-monitoring-america,bsg-billing-report-monitoring
+  CRAWL_WHEN_STARTS: "false"
+  CRAWLER_EXEC_DAILY_HOUR: "00"
+  CRAWLER_EXEC_DAILY_MINUTE: "00"
+  CRAWLER_INVOICING_MONTHLY_DAY: "03"
+  CRAWLER_INVOICING_MONTHLY_HOUR: "09"
+  CRAWLER_EXEC_TIMEZONE: Asia/Seoul
+  MONGO_CONNECTION_STRING: mongodb://bsgcmp:bsgcmp@ddb:27017
+  MONGO_DATABASE: bsgcmp_db
+  MONGO_HOST: ddb
+  MONGO_PASSWORD: bsgcmp
+  MONGO_PORT: "27017"
+  MONGO_USERNAME: bsgcmp
+  POSTGRES_DB: bsgcmp_db
+  POSTGRES_HOST: rdb
+  POSTGRES_PASSWORD: bsgcmp
+  POSTGRES_PORT: "5432"
+  POSTGRES_USER: bsgcmp
+  POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+  REDIS_DB: "0"
+  REDIS_HOST: mdb
+  REDIS_PASSWORD: bsgcmp
+  REDIS_PORT: "6379"
+  REST_API_VERSION: v1
+  REST_API_HOST: rest-api.bsgon-dev.com
+  REST_API_PORT: "80"
+  WEB_ALLOWED_HOSTS: rest-api.bsgon-dev.com
+  DJANGO_DEBUG: "True"
+  DJANGO_LOG_PATH: /var/log/containers
+  DJANGO_LOG_LEVEL: DEBUG

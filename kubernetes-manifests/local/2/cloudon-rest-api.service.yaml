@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: cloudon
+  name: rest-api
+  labels:
+    app: cloudon
+    tier: backend
+spec:
+  type: LoadBalancer
+  # for sticky session
+  sessionAffinity: ClientIP
+  externalTrafficPolicy: Local
+  ports:
+  - port: 80
+    targetPort: 8000
+  selector:
+    app: rest-api
+    tier: backend

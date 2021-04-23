@@ -47,7 +47,7 @@ Below is a project directory structure.
 .
 |---- doc
 |     |---- images
-|---- terraform-configurations
+|---- terraform-manifests
 |     |---- prod
 |---- kubernetes-manifests
 |     |---- local
