@@ -29,7 +29,6 @@ Backend: Python Django
 
 ## Prerequisites
 
- - **Python**: ```brew install python3```
  - **Hyperkit**: ```brew install hyperkit```
  - **Minikube**: ```brew install minikube```
  - **kubectl**: ```brew install kubernetes-cli```
