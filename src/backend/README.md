@@ -58,6 +58,7 @@ cd k8s-django-demo/src/backend
 django-admin startproject rest_api .
 
 # Create the Restful API applications
+cd rest_api
 django-admin startapp users
 ~~~
 
