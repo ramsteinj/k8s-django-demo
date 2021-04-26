@@ -3,9 +3,19 @@
  <title>Yogiyo Frontend</title>
 </head>
 
+<script src="./env.js"></script>
+
 <body bgcolor="white">
 
- <h3>Frontend Index Page</h3>
+ <h1>Yogiyo Frontend Sample Page</h1>
+
+ <br><br>
+
+ <b>BACKEND_ENDPOINT</b>: 
+ <script>
+        var backend_endpoint = env.BACKEND_ENDPOINT;
+        document.write(backend_endpoint);
+ </script>
 
 </body>
 </html>
