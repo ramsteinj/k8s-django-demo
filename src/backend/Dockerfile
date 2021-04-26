@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir -p /var/log/containers
 RUN mkdir /backend
 WORKDIR /backend
-COPY ./rest_api /backend/
+COPY ./backend /backend/
 
 # DO NOT DECLARE environment variables here.
 # All environment variables should be declared in kubernetes ConfigMap.

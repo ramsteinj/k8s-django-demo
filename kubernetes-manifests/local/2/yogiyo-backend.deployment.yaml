@@ -22,7 +22,7 @@ spec:
       initContainers:
       # Wait for the database to get ready before starting the server, otherwise
       # the server will crash
-      - name: check-mdb-ready
+      - name: check-redis-ready
         image: redis
         command: ['sh', '-c', 
           'until redis-cli -h $(REDIS_HOST) -p $(REDIS_PORT) ping; 
@@ -30,15 +30,7 @@ spec:
         envFrom:
           - configMapRef:
               name: yogiyo-config
-      - name: check-ddb-ready
-        image: mongo
-        command: ["/bin/sh", "-c", 
-          "until mongo --host $(MONGO_HOST):$(MONGO_PORT) --eval 'db.adminCommand(\"ping\")'; 
-          do echo waiting for database; sleep 2; done;"]
-        envFrom:
-          - configMapRef:
-              name: yogiyo-config
-      - name: check-rdb-ready
+      - name: check-postgres-ready
         image: postgres
         command: ['sh', '-c', 
           'until pg_isready -h $(POSTGRES_HOST) -p $(POSTGRES_PORT); 
@@ -48,7 +40,7 @@ spec:
               name: yogiyo-config
       containers:
       - name: backend
-        image: rest_api
+        image: backend
         envFrom:
           - configMapRef:
               name: yogiyo-config

@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: yogiyo
-  name: mdb
+  name: redis
 spec:
   progressDeadlineSeconds: 1000
   replicas: 1
   selector:
     matchLabels:
-      app: mdb
+      app: redis
       tier: db
   template:
     metadata:
       labels:
-        app: mdb
+        app: redis
         tier: db
     spec:
       restartPolicy: Always

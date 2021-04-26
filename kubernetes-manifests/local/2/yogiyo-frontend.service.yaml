@@ -12,12 +12,9 @@ spec:
   sessionAffinity: ClientIP
   externalTrafficPolicy: Local
   ports:
-    - name: customer
+    - name: web
       port: 8080
       targetPort: 8080
-    - name: admin
-      port: 8081
-      targetPort: 8081
   selector:
     app: frontend
     tier: frontend

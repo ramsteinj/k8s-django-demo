@@ -13,7 +13,7 @@ spec:
       name: yogiyo-backend-entrypoint
     spec:
       initContainers:
-      - name: check-rdb-ready
+      - name: check-postgres-ready
         image: postgres
         command: ['sh', '-c', 
           'until pg_isready -h $(POSTGRES_HOST) -p $(POSTGRES_PORT); 
@@ -23,8 +23,8 @@ spec:
               name: yogiyo-config
       containers:
       - name: yogiyo-backend-entrypoint
-        image: rest_api
-        command: [  "/bin/sh", "-c", "/yogiyo/k8s-entrypoint.sh" ]
+        image: backend
+        command: [  "/bin/sh", "-c", "/backend/docker-entrypoint.sh" ]
         envFrom:
           - configMapRef:
               name: yogiyo-config

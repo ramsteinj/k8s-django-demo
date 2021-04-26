@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: yogiyo
@@ -6,28 +6,28 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/affinity: "cookie"
     nginx.ingress.kubernetes.io/session-cookie-name: "ingress-route"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
     nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
 spec:
   rules:
-  - host: yogiyo-local.com
+  - host: "yogiyo-local.com"
     http:
       paths:
-      - path: /
+      - pathType: Prefix
+        path: "/"
         backend:
-          serviceName: frontend
-          servicePort: 8080
-  - host: admin.yogiyo-local.com
+          service:
+            name: frontend
+            port:
+              number: 8080
+  - host: "backend.yogiyo-local.com"
     http:
       paths:
-      - path: /
+      - pathType: Prefix
+        path: "/"
         backend:
-          serviceName: frontend
-          servicePort: 8081
-  - host: backend.yogiyo-local.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: backend
-          servicePort: 8000
+          service:
+            name: backend
+            port:
+              number: 8000

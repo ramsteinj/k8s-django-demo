@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: yogiyo
-  name: rdb
+  name: postgres
 spec:
   progressDeadlineSeconds: 1000
   replicas: 1
   selector:
     matchLabels:
-      app: rdb
+      app: postgres
       tier: db
   template:
     metadata:
       labels:
-        app: rdb
+        app: postgres
         tier: db
     spec:
       restartPolicy: Always

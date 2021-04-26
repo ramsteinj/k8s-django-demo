@@ -4,8 +4,8 @@ metadata:
   namespace: yogiyo
   name: backend 
 spec: 
-  maxReplicas: 10 
-  minReplicas: 2 
+  maxReplicas: 2
+  minReplicas: 1 
   scaleTargetRef: 
     apiVersion: apps/v1
     kind: Deployment
