@@ -3,7 +3,7 @@
 ###############################
 locals {
   # Your AWS EKS Cluster ID goes here.
-  "k8s_cluster_name" = "my-k8s-cluster"
+  k8s_cluster_name = "my-k8s-cluster"
 
   oidc_url = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
 }
@@ -186,7 +186,7 @@ resource "kubernetes_cluster_role_binding" "external_dns" {
 data "aws_region" "current" {}
 
 data "aws_eks_cluster" "target" {
-  name = "local.k8s_cluster_name"
+  name = local.k8s_cluster_name
 }
 
 data "aws_eks_cluster_auth" "aws_iam_authenticator" {
