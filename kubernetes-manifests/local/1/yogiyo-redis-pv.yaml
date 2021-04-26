@@ -1,26 +1,13 @@
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  namespace: yogiyo
-  name: local-redis-storage
-provisioner: kubernetes.io/no-provisioner
-volumeBindingMode: Immediate
----
-kind: PersistentVolume
 apiVersion: v1
+kind: PersistentVolume
 metadata:
   namespace: yogiyo
-  name: yogiyo-redis-pv
-  labels:
-    type: local
-    app: yogiyo
+  name: redis-pv
 spec:
-  storageClassName: local-redis-storage
-  capacity:
-    storage: 1Gi
+  storageClassName: redis-sc
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  volumeMode: Filesystem
+  capacity:
+    storage: 1Gi
   hostPath:
-    path: "/mnt/data/redis"
+    path: /data/redis/

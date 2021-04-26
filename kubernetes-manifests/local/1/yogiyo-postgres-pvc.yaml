@@ -2,13 +2,13 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   namespace: yogiyo
-  name: postgres-pv-claim
+  name: postgres-pvc
   labels:
     app: yogiyo
 spec:
-  storageClassName: local-postgres-storage
+  storageClassName: postgres-sc
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 10Gi
