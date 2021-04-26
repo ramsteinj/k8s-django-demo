@@ -5,12 +5,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  namespace: cloudon
-  name: cloudon-rest-api-entrypoint
+  namespace: yogiyo
+  name: yogiyo-backend-entrypoint
 spec:
   template:
     metadata:
-      name: cloudon-rest-api-entrypoint
+      name: yogiyo-backend-entrypoint
     spec:
       initContainers:
       - name: check-rdb-ready
@@ -20,12 +20,12 @@ spec:
           do echo waiting for database; sleep 2; done;']
         envFrom:
           - configMapRef:
-              name: cloudon-config
+              name: yogiyo-config
       containers:
-      - name: cloudon-rest-api-entrypoint
+      - name: yogiyo-backend-entrypoint
         image: rest_api
-        command: [  "/bin/sh", "-c", "/cloudon/k8s-entrypoint.sh" ]
+        command: [  "/bin/sh", "-c", "/yogiyo/k8s-entrypoint.sh" ]
         envFrom:
           - configMapRef:
-              name: cloudon-config
+              name: yogiyo-config
       restartPolicy: OnFailure

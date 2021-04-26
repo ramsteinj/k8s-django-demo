@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  namespace: cloudon
+  namespace: yogiyo
   name: redis-pv-claim
   labels:
-    app: cloudon
+    app: yogiyo
 spec:
   storageClassName: local-redis-storage
   accessModes:

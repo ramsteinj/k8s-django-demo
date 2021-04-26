@@ -1,21 +1,21 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  namespace: cloudon
-  name: local-postgres-storage
+  namespace: yogiyo
+  name: local-redis-storage
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: Immediate
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  namespace: cloudon
-  name: cloudon-postgres-pv
+  namespace: yogiyo
+  name: yogiyo-redis-pv
   labels:
     type: local
-    app: cloudon
+    app: yogiyo
 spec:
-  storageClassName: local-postgres-storage
+  storageClassName: local-redis-storage
   capacity:
     storage: 1Gi
   accessModes:
@@ -23,4 +23,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   volumeMode: Filesystem
   hostPath:
-    path: "/mnt/data/postgres"
+    path: "/mnt/data/redis"

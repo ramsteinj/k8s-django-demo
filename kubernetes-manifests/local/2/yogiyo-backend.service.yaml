@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: cloudon
-  name: rest-api
+  namespace: yogiyo
+  name: backend
   labels:
-    app: cloudon
+    app: yogiyo
     tier: backend
 spec:
   type: LoadBalancer
@@ -15,5 +15,5 @@ spec:
   - port: 80
     targetPort: 8000
   selector:
-    app: rest-api
+    app: backend
     tier: backend

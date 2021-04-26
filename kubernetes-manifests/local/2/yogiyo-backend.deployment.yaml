@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: cloudon
-  name: rest-api
+  namespace: yogiyo
+  name: backend
   labels:
-    app: cloudon
+    app: yogiyo
     tier: backend
 spec:
   progressDeadlineSeconds: 1000
   selector:
     matchLabels:
-      app: rest-api
+      app: backend
       tier: backend
   template:
     metadata:
       labels:
-        app: rest-api
+        app: backend
         tier: backend
     spec:
       restartPolicy: Always
@@ -29,7 +29,7 @@ spec:
           do echo waiting for database; sleep 2; done;']
         envFrom:
           - configMapRef:
-              name: cloudon-config
+              name: yogiyo-config
       - name: check-ddb-ready
         image: mongo
         command: ["/bin/sh", "-c", 
@@ -37,7 +37,7 @@ spec:
           do echo waiting for database; sleep 2; done;"]
         envFrom:
           - configMapRef:
-              name: cloudon-config
+              name: yogiyo-config
       - name: check-rdb-ready
         image: postgres
         command: ['sh', '-c', 
@@ -45,13 +45,13 @@ spec:
           do echo waiting for database; sleep 2; done;']
         envFrom:
           - configMapRef:
-              name: cloudon-config
+              name: yogiyo-config
       containers:
-      - name: rest-api
+      - name: backend
         image: rest_api
         envFrom:
           - configMapRef:
-              name: cloudon-config
+              name: yogiyo-config
         ports:
         - name: http-server
           containerPort: 8000

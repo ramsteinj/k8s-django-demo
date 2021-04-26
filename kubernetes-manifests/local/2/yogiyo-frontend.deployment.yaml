@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: cloudon
+  namespace: yogiyo
   name: frontend
   labels:
     app: frontend
@@ -25,7 +25,7 @@ spec:
         command: [  "/bin/sh", "-c", "/app/docker-entrypoint.sh" ]
         envFrom:
           - configMapRef:
-              name: cloudon-config
+              name: yogiyo-config
         ports:
         - name: web-server
           containerPort: 8080

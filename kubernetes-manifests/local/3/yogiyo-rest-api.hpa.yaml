@@ -1,15 +1,15 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler 
 metadata: 
-  namespace: cloudon
-  name: rest-api 
+  namespace: yogiyo
+  name: backend 
 spec: 
   maxReplicas: 10 
   minReplicas: 2 
   scaleTargetRef: 
     apiVersion: apps/v1
     kind: Deployment
-    name: rest-api
+    name: backend
   metrics:
   - type: Resource
     resource:

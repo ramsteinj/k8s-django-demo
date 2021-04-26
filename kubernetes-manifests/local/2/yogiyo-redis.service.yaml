@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: cloudon
+  namespace: yogiyo
   name: mdb
   labels:
-    app: cloudon
+    app: yogiyo
     tier: db
 spec:
   type: NodePort

@@ -171,7 +171,7 @@ Before test, the IP address of kubernetes ingress needs to be identified. You ca
 ~~~ bash
 Command Prompt> kubectl get ingress yogiyo-ingress --namespace=yogiyo
 NAME              CLASS    HOSTS                                  ADDRESS          PORTS   AGE
-yogiyo-ingress   <none>   bsgon-dev.com,rest-api.bsgon-dev.com   192.168.64.100   80      41m
+yogiyo-ingress   <none>   yogiyo-local.com,backend.yogiyo-local.com   192.168.64.100   80      41m
 ~~~
 
 Note that ***192.168.64.100*** is the IP address of Ingress - yogiyo-ingress.
@@ -183,11 +183,11 @@ Once we identify the IP address of ingress, we need to register the IP address o
 
 ...
 
-# for BSGON development
-192.168.64.100  bsgon-dev.com
-192.168.64.100  rest-api.bsgon-dev.com
+# for local development
+192.168.64.100  yogiyo-local.com
+192.168.64.100  backend.yogiyo-local.com
 ~~~
 
-After this you can access cloudon web applications using web browser as below:
+After this you can access frontend web applications using web browser as below:
 
 ### Production Environment  
