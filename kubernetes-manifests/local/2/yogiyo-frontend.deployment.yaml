@@ -19,6 +19,16 @@ spec:
         tier: frontend
     spec:
       restartPolicy: Always
+      #initContainers:
+      # Wait for the backend Rest API
+      # - name: check-backend-ready
+      #   image: redis
+      #   command: ['sh', '-c', 
+      #     'until redis-cli -h $(REDIS_HOST) -p $(REDIS_PORT) ping; 
+      #     do echo waiting for database; sleep 2; done;']
+      #   envFrom:
+      #     - configMapRef:
+      #         name: yogiyo-config
       containers:
       - name: frontend
         image: frontend

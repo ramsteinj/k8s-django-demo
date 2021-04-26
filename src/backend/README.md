@@ -13,6 +13,16 @@ brew install redis
 
 > Note: Postgresql and redis are not used at all during development and deployment cycle. These are required for python psycopg2 and redis package installation only.
 
+Optionally, you can install the below software for your convenience.
+
+~~~bash
+# Install optional softwares
+
+# DBeaver: free multi-platform database tool for developers
+brew install --cask dbeaver-community
+
+~~~
+
 ## Set Python Virtual Environment
 After the package installation, execute following commands to create a python virtual environment.
 

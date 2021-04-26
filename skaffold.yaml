@@ -31,7 +31,9 @@ profiles:
     build:
       tagPolicy:
         #dateTime: {}
-        sha256: {}
+        #sha256: {}
+        envTemplate:
+          template: "{{.IMAGE_TAG_FOR_DEV}}"
       local:
         push: false
         #useDockerCLI: true
