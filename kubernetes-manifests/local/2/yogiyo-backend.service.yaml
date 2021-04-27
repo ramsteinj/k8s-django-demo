@@ -12,7 +12,7 @@ spec:
   sessionAffinity: ClientIP
   externalTrafficPolicy: Local
   ports:
-    - name: rest_api
+    - name: rest-api
       port: 8000
       targetPort: 8000
   selector:
