@@ -47,10 +47,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # APIs
-    path(url_prefix + '/auth/', include('rest_auth.urls')),
-    path(url_prefix + '/auth/registration/', include('rest_auth.registration.urls')),
-    path(url_prefix + '/users/', include('backend.users.urls')),
-    path(url_prefix + '/login-history/', include('backend.login_history.urls')),
+    #path(url_prefix + '/auth/', include('rest_auth.urls')),
+    #path(url_prefix + '/auth/registration/', include('rest_auth.registration.urls')),
+    #path(url_prefix + '/users/', include('rest_api.users.urls')),
 
     # Swagger
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
