@@ -18,7 +18,7 @@ spec:
         app: backend
         tier: backend
     spec:
-      restartPolicy: Never
+      restartPolicy: Always
       initContainers:
       # Wait for the database to get ready before starting the server, otherwise
       # the server will crash
