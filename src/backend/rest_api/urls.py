@@ -25,7 +25,7 @@ from drf_yasg import openapi
 #router = routers.DefaultRouter()
 #router.register(r'users', views.UserViewSet)
 #router.register(r'groups', views.GroupViewSet)
-version = os.environ["REST_API_VERSION"]
+version = os.environ["BACKEND_VERSION"]
 url_prefix = "api/" + version
 
 # Swagger settings
