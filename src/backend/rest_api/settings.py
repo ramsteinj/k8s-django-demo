@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-o4+_3=bwqlxg58nc$f6)v5d%+2%kulshq)w9f3kzu&6ryxk&)d
 #DEBUG = True
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
 django_allowed_hosts = os.environ["DJANGO_ALLOWED_HOSTS"]
 if django_allowed_hosts:

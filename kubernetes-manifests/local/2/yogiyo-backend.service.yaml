@@ -12,8 +12,9 @@ spec:
   sessionAffinity: ClientIP
   externalTrafficPolicy: Local
   ports:
-  - port: 80
-    targetPort: 8000
+    - name: rest_api
+      port: 8000
+      targetPort: 8000
   selector:
     app: backend
     tier: backend
