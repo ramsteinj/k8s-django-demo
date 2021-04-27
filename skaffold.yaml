@@ -37,10 +37,9 @@ profiles:
       # This overrides the progressDeadlineSeconds in every deployment.yaml file
       statusCheckDeadlineSeconds: 2000
       kubectl:
-        # Currently not necessary as progressDeadlineSeconds is specified in deployment.yaml
         # flags:
         #   apply:
-        #     - "--timeout=1000s"
+        #     - "--v=7"
         manifests:
           - kubernetes-manifests/local/0/**.yaml
           - kubernetes-manifests/local/1/**.yaml

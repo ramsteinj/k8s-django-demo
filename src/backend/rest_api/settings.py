@@ -29,6 +29,9 @@ DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 ALLOWED_HOSTS = []
 
+django_allowed_hosts = os.environ["DJANGO_ALLOWED_HOSTS"]
+if django_allowed_hosts:
+    ALLOWED_HOSTS.extend(django_allowed_hosts.split(','))
 
 # Application definition
 
