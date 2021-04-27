@@ -31,6 +31,7 @@ cd k8s-django-demo/src/backend
 
 # Create a python virtual environment for project
 python -m venv env
+pip install pylint
 source env/bin/activate
 ~~~
 
