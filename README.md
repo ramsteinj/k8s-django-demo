@@ -79,7 +79,7 @@ minikube config set cpus 4
 minikube config set vm-driver hyperkit
 
 # increase minikube disk size, default is 2GB
-minikube config set disk-size 8192
+minikube config set disk-size 20240
 ~~~
 
 This will change ```~/.minikube/config/config.json``` file and the configurations is valid until cluster is deleted by ```minikube delete``` which deletes current configured a kubernetes cluster. The current cluster configuration info can be checked by following command.
