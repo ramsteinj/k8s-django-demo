@@ -10,18 +10,13 @@ build:
       image: frontend
       docker:
         dockerfile: ./frontend/Dockerfile
-# only effective when "--port-forward" option is given
-portForward:
- - resourceType: service
-   resourceName: redis
-   namespace: yogiyo
-   port: 6379
-   localPort: 6379
- - resourceType: service
-   resourceName: postgres
-   namespace: yogiyo
-   port: 5432
-   localPort: 5432
+# all services are exposed by default in "skaffold dev" mode so below configuration is not needed.
+# portForward:
+#  - resourceType: service
+#    resourceName: redis
+#    namespace: yogiyo
+#    port: 6379
+#    localPort: 6379
 profiles:
   - name: dev-profile
     # automatically activate this profile when current context is "minikube"
@@ -32,6 +27,7 @@ profiles:
       tagPolicy:
         #dateTime: {}
         #sha256: {}
+        # tag images as "dev" in order to save disk space
         envTemplate:
           template: "{{.IMAGE_TAG_FOR_DEV}}"
       local:
