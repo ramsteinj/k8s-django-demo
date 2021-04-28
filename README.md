@@ -166,28 +166,9 @@ minikube stop
 
 #### How to Test
 
-Before test, the IP address of kubernetes ingress needs to be identified. You can check the IP address of ingress via below command.
+ - [Frontend](http://localhost:8080)
+ - [Backend Swagger](http://localhost:8000/swagger)
+ - [Backend Redoc](http://localhost:8000/redoc)
 
-~~~ bash
-Command Prompt> kubectl get ingress yogiyo-ingress --namespace=yogiyo
-NAME              CLASS    HOSTS                                  ADDRESS          PORTS   AGE
-yogiyo-ingress   <none>   yogiyo-local.com,backend.yogiyo-local.com   192.168.64.100   80      41m
-~~~
-
-Note that ***192.168.64.100*** is the IP address of Ingress - yogiyo-ingress.
-
-Once we identify the IP address of ingress, we need to register the IP address of ingress with FQDN (Fully Qualified Domain Name). Open hosts file (/etc/hosts in Linux/MacOS) and add below line.
-
-~~~ bash
-/etc/hosts
-
-...
-
-# for local development
-192.168.64.100  yogiyo-local.com
-192.168.64.100  backend.yogiyo-local.com
-~~~
-
-After this you can access frontend web applications using web browser as below:
 
 ### Production Environment  
