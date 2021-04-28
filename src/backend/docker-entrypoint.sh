@@ -30,3 +30,6 @@ EOF
 # from backend.utils.mongodb import MongoDB
 # MongoDB().initialize_region_location()
 # EOF
+
+echo "Launching django server..."
+python manage.py runserver 0.0.0.0:8000 --noreload

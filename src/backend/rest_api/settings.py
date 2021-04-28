@@ -29,7 +29,7 @@ DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
-django_allowed_hosts = os.environ["DJANGO_ALLOWED_HOSTS"]
+django_allowed_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS", None)
 if django_allowed_hosts:
     ALLOWED_HOSTS.extend(django_allowed_hosts.split(','))
 
@@ -42,9 +42,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # rest framework
     'rest_framework',
+    # swagger
     'drf_yasg',
+    # to use default user and auth models
+    'rest_framework.authtoken',
+    'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+    # packages added by "django-admin startapp"
+    'users',
 ]
+
+# Use a custom user model than the default user model
+AUTH_USER_MODEL = 'users.YogiyoUser'
+
+# 'django-allauth' package settings
+ACCOUNT_EMAIL_VERIFICATION = None
+SITE_ID = 1
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,11 +99,11 @@ WSGI_APPLICATION = 'rest_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-POSTGRES_HOST = os.environ["POSTGRES_HOST"]
-POSTGRES_PORT = os.environ["POSTGRES_PORT"]
-POSTGRES_DB = os.environ["POSTGRES_DB"]
-POSTGRES_USER = os.environ["POSTGRES_USER"]
-POSTGRES_PASSWORD = os.environ["POSTGRES_PASSWORD"]
+POSTGRES_HOST = os.environ.get("POSTGRES_HOST", None)
+POSTGRES_PORT = os.environ.get("POSTGRES_PORT", None)
+POSTGRES_DB = os.environ.get("POSTGRES_DB", None)
+POSTGRES_USER = os.environ.get("POSTGRES_USER", None)
+POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD", None)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -145,8 +164,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Logging
-LOG_PATH = os.environ["DJANGO_LOG_PATH"]
-LOG_LEVEL = os.environ["DJANGO_LOG_LEVEL"]
+LOG_PATH = os.environ.get("DJANGO_LOG_PATH", None)
+LOG_LEVEL = os.environ.get("DJANGO_LOG_LEVEL", None)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

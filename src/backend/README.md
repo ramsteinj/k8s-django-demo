@@ -61,6 +61,7 @@ pip freeze > requirements.txt
 > Note: You can install all the required packages by executing "pip install -r requirements.txt" command as requirements.txt is already generated if you checked out this source code via "git clone".
 
 ## Create a Django Project
+This project was created by django-admin as below:
 
 ~~~bash
 cd k8s-django-demo/src/backend
@@ -69,7 +70,6 @@ cd k8s-django-demo/src/backend
 django-admin startproject rest_api .
 
 # Create the Restful API applications
-cd rest_api
 django-admin startapp users
 ~~~
 

@@ -25,7 +25,7 @@ from drf_yasg import openapi
 #router = routers.DefaultRouter()
 #router.register(r'users', views.UserViewSet)
 #router.register(r'groups', views.GroupViewSet)
-version = os.environ["BACKEND_VERSION"]
+version = os.environ.get("BACKEND_VERSION", "")
 url_prefix = "api/" + version
 
 # Swagger settings
@@ -47,8 +47,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # APIs
-    #path(url_prefix + '/auth/', include('rest_auth.urls')),
-    #path(url_prefix + '/auth/registration/', include('rest_auth.registration.urls')),
+    path(url_prefix + '/auth/', include('rest_auth.urls')),
+    path(url_prefix + '/auth/registration/', include('rest_auth.registration.urls')),
+    path(url_prefix + '/account/', include('allauth.urls')),
     #path(url_prefix + '/users/', include('rest_api.users.urls')),
 
     # Swagger

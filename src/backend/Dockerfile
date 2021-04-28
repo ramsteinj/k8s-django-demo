@@ -19,4 +19,5 @@ RUN pip install -r requirements.txt
 #RUN apt-get install -y fonts-noto-cjk
 
 # Start this container
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000", "--noreload"]
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000", "--noreload"]
+CMD ["/backend/docker-entrypoint.sh"]
