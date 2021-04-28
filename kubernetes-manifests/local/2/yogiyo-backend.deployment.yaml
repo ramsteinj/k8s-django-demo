@@ -41,6 +41,12 @@ spec:
       containers:
       - name: backend
         image: backend
+        env:
+          # setting below to specify pod name in application log
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name          
         envFrom:
           - configMapRef:
               name: yogiyo-config
