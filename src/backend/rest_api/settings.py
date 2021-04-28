@@ -187,18 +187,30 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Logging
+POD_NAME = os.environ.get("POD_NAME", "")
 LOG_PATH = os.environ.get("DJANGO_LOG_PATH", None)
 LOG_LEVEL = os.environ.get("DJANGO_LOG_LEVEL", None)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': POD_NAME + ' - [{asctime}] [{levelname}] - {module}:{lineno} - {message}',
+            'style': '{',
+        },
+    },    
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'simple',
         },
     },
     'root': {
         'handlers': ['console'],
-        'level': 'INFO',
+        'level': LOG_LEVEL,
     },
 }
