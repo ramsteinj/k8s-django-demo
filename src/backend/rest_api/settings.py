@@ -115,6 +115,23 @@ DATABASES = {
     }
 }
 
+# Redis session settings
+REDIS_HOST = os.environ["REDIS_HOST"]
+REDIS_PORT = os.environ["REDIS_PORT"]
+REDIS_DB = os.environ["REDIS_DB"]
+REDIS_PASSWORD = os.environ["REDIS_PASSWORD"]
+
+SESSION_REDIS = {
+    'host': REDIS_HOST,
+    'port': REDIS_PORT,
+    'db': REDIS_DB,
+    'password': REDIS_PASSWORD,
+    'prefix': 'session',
+    'socket_timeout': 1,
+    'retry_on_timeout': False
+}
+SESSION_ENGINE = 'redis_sessions.session'
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
