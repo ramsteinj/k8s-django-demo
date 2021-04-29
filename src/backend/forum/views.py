@@ -3,6 +3,7 @@ import logging
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.renderers import JSONRenderer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
@@ -18,8 +19,9 @@ logger = logging.getLogger(__name__)
 
 class ForumListView(APIView):
     """
-    List all forums, or create a new forum
+    List all forums
     """
+    #renderer_classes = [JSONRenderer]
     authentication_classes = [TokenAuthentication]
 
     @swagger_auto_schema(
@@ -37,13 +39,21 @@ class ForumListView(APIView):
         serializers = ForumSerializer(forums, many=True)
         return Response(serializers.data)
 
+class ForumView(APIView):
+    """
+    Create/Delete/Update a forum
+    """
+    #renderer_classes = [JSONRenderer]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
     @swagger_auto_schema(
         operation_id="Create a forum",
         operation_description="Create a forum. \
                                  \n- Requires token authentication. \
                                  \n- Requires admin previeledge.",
-        # request_body=ForumSerializer,
-        query_serializer=ForumSerializer,
+        request_body=ForumSerializer,
+        #query_serializer=ForumSerializer,
         responses={
             200: ForumSerializer(many=True),
             401: "Unauthorized",
@@ -52,7 +62,6 @@ class ForumListView(APIView):
     )
     def post(self, request, format=None):
         logger.debug('ForumListView.post() invoked...')
-        permission_classes = [IsAdminUser]
         serializer = ForumSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
