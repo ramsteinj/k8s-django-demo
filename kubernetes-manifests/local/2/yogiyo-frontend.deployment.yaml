@@ -33,6 +33,12 @@ spec:
       - name: frontend
         image: frontend
         command: [  "/bin/sh", "-c", "/app/docker-entrypoint.sh" ]
+        env:
+          # setting below to specify pod name in application log
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
         envFrom:
           - configMapRef:
               name: yogiyo-config
