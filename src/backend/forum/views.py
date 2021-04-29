@@ -14,9 +14,7 @@ from .serializers import ForumSerializer, DiscussionSerializer
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
-# Create your views here.
-
-
+# Forum & Discussion View
 class ForumListView(APIView):
     """
     List all forums
@@ -67,3 +65,28 @@ class ForumView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DiscussionListView(APIView):
+    """
+    List all discussions
+    """
+    #renderer_classes = [JSONRenderer]
+    authentication_classes = [TokenAuthentication]
+
+    @swagger_auto_schema(
+        operation_id="List all discussions",
+        operation_description="List all discussions in a forum. \
+                                 \n- Requires token authentication.",
+        responses={
+            200: ForumSerializer(many=True),
+            401: "Unauthorized"
+        }
+    )
+    def get(self, request, forum_id, format=None):
+        logger.debug('DiscussionListView.get(%s) invoked...', forum_id)
+        try:
+            forums = Discussion.objects.get(forum_id=forum_id)
+        except Discussion.DoesNotExist:
+            forums = None
+        serializers = ForumSerializer(forums, many=True)
+        return Response(serializers.data)
