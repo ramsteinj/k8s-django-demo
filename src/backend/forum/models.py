@@ -7,8 +7,7 @@ logger = logging.getLogger(__name__)
 
 # Parent model
 class Forum(models.Model):
-    #user = models.ForeignKey("users.YogiyoUser", on_delete=models.PROTECT)
-    user = models.ForeignKey(YogiyoUser, on_delete=models.CASCADE)
+    userid = models.ForeignKey(YogiyoUser, on_delete=models.CASCADE)
     topic = models.CharField(max_length=300)
     description = models.CharField(max_length=1000, blank=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -21,6 +20,7 @@ class Forum(models.Model):
  
 # Child model
 class Discussion(models.Model):
+    userid = models.ForeignKey(YogiyoUser, on_delete=models.CASCADE)
     forum = models.ForeignKey(Forum, blank=True, on_delete=models.CASCADE)
     discuss = models.CharField(max_length=1000)
     created = models.DateTimeField(auto_now_add=True)

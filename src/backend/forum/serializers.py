@@ -9,9 +9,9 @@ logger = logging.getLogger(__name__)
 class ForumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forum
-        fields = ['user', 'topic', 'description', 'created']
+        fields = ['userid', 'topic', 'description', 'created']
 
 class DiscussionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Discussion
-        fields = ['forum', 'discuss', 'created']
+        fields = ['userid', 'forum', 'discuss', 'created']
