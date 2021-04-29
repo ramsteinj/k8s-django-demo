@@ -50,6 +50,7 @@ urlpatterns = [
     path(url_prefix + '/auth/', include('rest_auth.urls')),
     path(url_prefix + '/auth/registration/', include('rest_auth.registration.urls')),
     path(url_prefix + '/account/', include('allauth.urls')),
+    path(url_prefix + '/users/', include('users.urls')),
     path(url_prefix + '/forum/', include('forum.urls')),
 
     # Swagger

@@ -3,8 +3,9 @@ from django.contrib.auth.models import AbstractUser
 
 class YogiyoUser(AbstractUser):
     """
-        We're going to use django's default user model with no modification.
+    Yogiyo user model that is extended from Abstractuser
     """
+    name = models.CharField(blank=True, max_length=255)
 
     def __str__(self):
         return self.username
