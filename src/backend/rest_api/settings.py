@@ -133,6 +133,18 @@ SESSION_REDIS = {
 }
 SESSION_ENGINE = 'redis_sessions.session'
 
+# drf_yasg (Swagger & Redoc) setting
+SWAGGER_SETTINGS = {
+    'DEFAULT_AUTO_SCHEMA_CLASS': 'utils.swagger.XcodeAutoSchema',
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

@@ -21,13 +21,15 @@ class ForumListView(APIView):
     List all forums
     """
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    #permission_classes = [IsAdminUser]
 
     @swagger_auto_schema(
         operation_id="List all forums",
-        operation_description="List all existing forums created. \
+        #operation_description="List all existing forums created. \
                                  \n- Requires token authentication. \
                                  \n- Requires admin previeledge.",
+        operation_description="List all existing forums created. \
+                                 \n- Requires token authentication.",
         # query_serializer=LoginHistorySerializer,
         responses={
             200: ForumSerializer(many=True),
