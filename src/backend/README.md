@@ -71,6 +71,7 @@ django-admin startproject rest_api .
 
 # Create the Restful API applications
 django-admin startapp users
+django-admin startapp forum
 ~~~
 
 > Note: You don't need to execute above commands if you checked out the project source code from git as those are already generated.

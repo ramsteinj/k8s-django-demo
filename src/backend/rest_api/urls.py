@@ -50,7 +50,7 @@ urlpatterns = [
     path(url_prefix + '/auth/', include('rest_auth.urls')),
     path(url_prefix + '/auth/registration/', include('rest_auth.registration.urls')),
     path(url_prefix + '/account/', include('allauth.urls')),
-    #path(url_prefix + '/users/', include('rest_api.users.urls')),
+    path(url_prefix + '/forum/', include('forum.urls')),
 
     # Swagger
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

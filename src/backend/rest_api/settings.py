@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     # packages added by "django-admin startapp"
     'users',
+    'forum',
 ]
 
 # Use a custom user model than the default user model
