@@ -18,23 +18,17 @@ logger = logging.getLogger(__name__)
 
 class ForumListView(APIView):
     """
-    List all forums
+    List all forums, or create a new forum
     """
     authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAdminUser]
 
     @swagger_auto_schema(
         operation_id="List all forums",
-        #operation_description="List all existing forums created. \
-        #                         \n- Requires token authentication. \
-        #                         \n- Requires admin previeledge.",
         operation_description="List all existing forums created. \
                                  \n- Requires token authentication.",
-        # query_serializer=LoginHistorySerializer,
         responses={
             200: ForumSerializer(many=True),
-            401: "Unauthorized",
-            403: "Forbidden"
+            401: "Unauthorized"
         }
     )
     def get(self, request, format=None):
@@ -42,3 +36,25 @@ class ForumListView(APIView):
         forums = Forum.objects.all()
         serializers = ForumSerializer(forums, many=True)
         return Response(serializers.data)
+
+    @swagger_auto_schema(
+        operation_id="Create a forum",
+        operation_description="Create a forum. \
+                                 \n- Requires token authentication. \
+                                 \n- Requires admin previeledge.",
+        # request_body=ForumSerializer,
+        query_serializer=ForumSerializer,
+        responses={
+            200: ForumSerializer(many=True),
+            401: "Unauthorized",
+            403: "Forbidden"
+        }
+    )
+    def post(self, request, format=None):
+        logger.debug('ForumListView.post() invoked...')
+        permission_classes = [IsAdminUser]
+        serializer = ForumSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
