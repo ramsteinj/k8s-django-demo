@@ -22,12 +22,12 @@ logger = logging.getLogger(__name__)
 
 # For swagger/redoc generation
 user_sample = YogiyoUser(email="bob@yogiyo.com", username="bob", name="Bob James")
-username_param = openapi.Parameter(
-    'username',
+user_id_param = openapi.Parameter(
+    'id',
     openapi.IN_PATH,
     description="Yogiyo User ID",
-    type=openapi.TYPE_STRING,
-    default='bob',
+    type=openapi.TYPE_INTEGER,
+    default='2',
     required=True
 )
 
@@ -45,40 +45,38 @@ class YogiyoUserView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
-    def get_object(self, username):
-        logger.debug("username: %s", username)
+    def get_object(self, id):
+        logger.debug("id: %s", id)
         try:
-            return YogiyoUser.objects.get(username=username)
+            return YogiyoUser.objects.get(id=id)
         except YogiyoUser.DoesNotExist:
             raise Http404
 
     @swagger_auto_schema(
-        operation_id="Get user by username",
-        manual_parameters=[username_param],
+        operation_id="Get a user by id",
+        manual_parameters=[user_id_param],
         responses={
             200: YogiyoUserSerializer,
             401: "Unauthorized",
             403: "Forbidden"
         }
     )
-    def get(self, request, username, format=None):
+    def get(self, request, id, format=None):
         logger.debug('YogiyoUserView.get() invoked...')
-        user = self.get_object(username)
+        user = self.get_object(id)
         serializer = YogiyoUserSerializer(user)
         return Response(serializer.data)
 
     @swagger_auto_schema(
-        operation_id="Update user",
-        manual_parameters=[username_param],
+        operation_id="Update a user",
         request_body=YogiyoUserSerializer(user_sample),
         responses={
             201: YogiyoUserSerializer,
             400: "Bad Request"
         }
     )
-    def put(self, request, username, format=None):
+    def put(self, request, format=None):
         logger.debug('YogiyoUserView.put() invoked...')
-        user = self.get_object(username)
         serializer = YogiyoUserSerializer(user, data=request.data, many=False)
         if serializer.is_valid():
             serializer.save()
@@ -87,14 +85,14 @@ class YogiyoUserView(APIView):
 
     @swagger_auto_schema(
         operation_id="Delete user",
-        manual_parameters=[username_param],
+        manual_parameters=[user_id_param],
         responses={
             204: "No Content",
             401: "Unauthorized",
         }
     )
-    def delete(self, request, username, format=None):
+    def delete(self, request, id, format=None):
         logger.debug('YogiyoUserView.delete() invoked...')
-        user = self.get_object(username)
+        user = self.get_object(id)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
