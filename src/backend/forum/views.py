@@ -26,8 +26,8 @@ class ForumListView(APIView):
     @swagger_auto_schema(
         operation_id="List all forums",
         #operation_description="List all existing forums created. \
-                                 \n- Requires token authentication. \
-                                 \n- Requires admin previeledge.",
+        #                         \n- Requires token authentication. \
+        #                         \n- Requires admin previeledge.",
         operation_description="List all existing forums created. \
                                  \n- Requires token authentication.",
         # query_serializer=LoginHistorySerializer,
