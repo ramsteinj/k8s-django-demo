@@ -6,8 +6,12 @@ Developing a django application on minikube is not ideal because:
 
 For those reasons, we use docker-compose for deveopment purpose and use minikube for deployment test in local environment.
 
+## Prerequisites
+- **Docker for Mac**: [Installation](https://docs.docker.com/docker-for-mac/install/)
 
 ## How to launch
+
+Before you execute docker-compose, make sure that "Docker for Mac" is up and running.
 
 ~~~bash
 cd k8s-django-demo/src
