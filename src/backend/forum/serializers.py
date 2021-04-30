@@ -1,6 +1,7 @@
 import logging
 from rest_framework import serializers
 from .models import Forum, Discussion
+from users.models import YogiyoUser
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)

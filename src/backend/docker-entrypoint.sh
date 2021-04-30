@@ -12,7 +12,7 @@ python manage.py migrate
 # Creat a super user
 #python manage.py createsuperuser --email admin@yogiyo.com --username admin
 #python manage.py syncdb --noinput
-#echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@bsgglobal.com', 'password1234')" | python manage.py shell
+#echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@yogiyo.com', 'password1234')" | python manage.py shell
 echo "Adding default admin account if not exist..."
 cat <<EOF | python manage.py shell
 from django.contrib.auth import get_user_model
