@@ -18,7 +18,7 @@ build:
 #    port: 6379
 #    localPort: 6379
 profiles:
-  - name: dev-profile
+  - name: local
     # automatically activate this profile when current context is "minikube"
     activation:
       - kubeContext: minikube

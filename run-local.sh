@@ -8,4 +8,4 @@ kubectl config use-context minikube
 
 # deploy and run all applications on local minikube
 #skaffold dev -v debug --port-forward # --no-prune=false --cache-artifacts=false
-skaffold dev -v info --port-forward # --no-prune=false --cache-artifacts=false
+skaffold dev -v info --port-forward --no-prune=false --cache-artifacts=false
