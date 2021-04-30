@@ -1,0 +1,69 @@
+version: '3.7'
+services:
+  redis:
+    image: redis:alpine
+    restart: always
+    container_name: "redis"
+    command: redis-server --requirepass ${REDIS_PASSWORD} 
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - ./.data/redis:/data
+  postgres:
+    image: postgres:11.6
+    restart: always
+    container_name: "postgres"
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - ./.data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+  backend:
+    container_name: "backend"
+    environment:
+      - BACKEND_VERSION=${BACKEND_VERSION}
+      - DJANGO_DEBUG=${DJANGO_DEBUG}
+      - DJANGO_LOG_PATH=${DJANGO_LOG_PATH}
+      - DJANGO_LOG_LEVEL=${DJANGO_LOG_LEVEL}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DB=${REDIS_DB}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER} 
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    command: ["./wait-for-it.sh", "redis:${REDIS_PORT}", "postgres:${POSTGRES_PORT}", "-t", "60", "--", "./docker-entrypoint.sh"]
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    depends_on:
+      - redis
+      - postgres
+  frontend:
+    container_name: "frontend"
+    environment:
+      - BACKEND_VERSION=${BACKEND_VERSION}
+      - BACKEND_HOST=${BACKEND_HOST}
+      - BACKEND_PORT=${BACKEND_PORT}
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    command: ["./docker-entrypoint.sh"]
+    volumes:
+      - ./frontend/content:/usr/share/nginx/html
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend

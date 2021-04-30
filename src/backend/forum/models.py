@@ -26,6 +26,7 @@ class Discussion(models.Model):
     discussion_id = models.AutoField(primary_key=True, db_column='discussion_id')
     discuss = models.CharField(max_length=1000)
     created = models.DateTimeField(auto_now_add=True)
+    #dummy = models.CharField(max_length=100)
  
     def __str__(self):
         return str(self.user_id, self.forum_id, self.discussion_id, self.discuss)
