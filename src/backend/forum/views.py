@@ -78,15 +78,43 @@ class DiscussionListView(APIView):
         operation_description="List all discussions in a forum. \
                                  \n- Requires token authentication.",
         responses={
-            200: ForumSerializer(many=True),
+            200: DiscussionSerializer(many=True),
             401: "Unauthorized"
         }
     )
     def get(self, request, forum_id, format=None):
-        logger.debug('DiscussionListView.get(%s) invoked...', forum_id)
+        logger.debug('DiscussionListView.get(%d) invoked...', forum_id)
         try:
-            forums = Discussion.objects.get(forum_id=forum_id)
+            discussion = Discussion.objects.filter(forum_id=forum_id)
         except Discussion.DoesNotExist:
-            forums = None
-        serializers = ForumSerializer(forums, many=True)
+            discussion = None
+        serializers = DiscussionSerializer(discussion, many=True)
         return Response(serializers.data)
+
+class DiscussionView(APIView):
+    """
+    Create/Delete/Update a discussion
+    """
+    #renderer_classes = [JSONRenderer]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
+    @swagger_auto_schema(
+        operation_id="Create a discussion",
+        operation_description="Create a discussion. \
+                                 \n- Requires token authentication. \
+                                 \n- Requires admin previeledge.",
+        request_body=DiscussionSerializer,
+        responses={
+            200: DiscussionSerializer(many=True),
+            401: "Unauthorized",
+            403: "Forbidden"
+        }
+    )
+    def post(self, request, format=None):
+        logger.debug('DiscussionView.post() invoked...')
+        serializer = DiscussionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
