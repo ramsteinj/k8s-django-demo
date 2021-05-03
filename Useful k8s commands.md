@@ -15,6 +15,11 @@ minikube stop
 
 # delete minikube cluster
 minikube delete
+
+# clean minikube cluster completely.
+# --all: to delete all profiles
+# --purge: delete the '~/.minikube' folder from your user directory.
+minikube delete --all --purge
 ~~~
 
 ## How to access minikube node
