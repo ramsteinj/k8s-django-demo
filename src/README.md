@@ -15,14 +15,14 @@ Before you execute docker-compose, make sure that "Docker for Mac" is up and run
 
 ~~~bash
 cd k8s-django-demo/src
-docker-compose up
+./start-local.sh
 ~~~
 
 ## How to stop
 
 ~~~bash
 cd k8s-django-demo/src
-docker-compose down
+./stop-local.sh
 ~~~
 
 ## Django Migration
