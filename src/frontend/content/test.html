@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+       <title>Yogiyo Frontend Test Page</title>
+
+       <script src="./env.js"></script>
+</head>
+
+<body>
+       <h1>Frontend Environment</h1>
+
+       <br><br>
+
+       <b>POD_NAME</b>:
+       <script>
+              var pod_name = env.POD_NAME;
+              document.write(pod_name);
+       </script>
+
+       <br>
+
+       <b>BACKEND_ENDPOINT</b>:
+       <script>
+              var backend_endpoint = env.BACKEND_ENDPOINT;
+              document.write(backend_endpoint);
+       </script>
+
+</body>
+
+</html>

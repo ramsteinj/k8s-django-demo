@@ -1,30 +1,96 @@
-<html>
+﻿
+<!DOCTYPE html>
+<html lang="en">
 <head>
- <title>Yogiyo Frontend</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Login Form with AJAX and jQuery Validations</title>
+    <meta name="description" content="Login form created using Boostrap 4 with jQuery validations and AJAX form submit that returns JSON response." />
+
+    <!-- Bootstrap CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link href="assets/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/styles.css" rel="stylesheet" />
 </head>
+<body>
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Welcome to Yogiyo Forum!</h1>
+            <br><br>
+            <p class="lead">Forums we can discuss things...</p>
+            <hr class="my-4" />
+            <p>This application uses Bootstrap 4 framework for responsive layout, jQuery validations, submits form using AJAX callback method.</p>
+        </div>
+    </div>
 
-<script src="./env.js"></script>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-6 align-self-center">
+                <form id="form_login" novalidate="novalidate">
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h5 class="card-title m-0">
+                                    <i class="fa fa-lock mr-1"></i>LOGIN
+                                </h5>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="form-group">
+                                    <label for="login_username">Username</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                        <input type="username" id="login_username" name="login_username" class="form-control" placeholder="Enter username" />
+                                    </div>
+                                    <small class="form-text text-muted">We'll never share your credentials with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="login_password">Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-unlock-alt"></i>
+                                        </span>
+                                        <input type="password" id="login_password" name="login_password" class="form-control" placeholder="Password" />
+                                    </div>
+                                </div>
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" id="login_remember" class="custom-control-input" />
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Remember me</span>
+                                </label>
+                            </li>
+                            <li class="list-group-item">
+                                <button type="submit" class="btn btn-primary">SIGN-IN</button>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-6 text-center align-self-center">
+                <h6>Result</h6>
+                <div id="login_result">
+                    <div class="alert">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<body bgcolor="white">
+    <footer class="footer">
+        <div class="container">
+            &copy; 2021 <a href="https://www.yogiyo.co.kr">yogiyo.co.kr</a>. All rights reserved.
+        </div>
+    </footer>
 
- <h1>Yogiyo Frontend Sample Page</h1>
-
- <br><br>
-
- <b>POD_NAME</b>: 
- <script>
-        var pod_name = env.POD_NAME;
-        document.write(pod_name);
- </script>
-
-<br>
-
-<b>BACKEND_ENDPOINT</b>: 
-<script>
-       var backend_endpoint = env.BACKEND_ENDPOINT;
-       document.write(backend_endpoint);
-</script>
-
-
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="assets/js/login.js"></script>
 </body>
 </html>
