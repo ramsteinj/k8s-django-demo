@@ -9,7 +9,8 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 
 from .models import Forum, Discussion
-from .serializers import ForumSerializer, DiscussionSerializer
+from .serializers import ForumSerializer, ForumListSerializer, DiscussionSerializer, DiscussionListSerializer
+from users.serializers import YogiyoUser, YogiyoUserSerializer
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -27,14 +28,14 @@ class ForumListView(APIView):
         operation_description="List all existing forums created. \
                                  \n- Requires token authentication.",
         responses={
-            200: ForumSerializer(many=True),
+            200: ForumListSerializer(many=True),
             401: "Unauthorized"
         }
     )
     def get(self, request, format=None):
         logger.debug('ForumListView.get() invoked...')
         forums = Forum.objects.all()
-        serializers = ForumSerializer(forums, many=True)
+        serializers = ForumListSerializer(forums, many=True)
         return Response(serializers.data)
 
 class ForumView(APIView):
@@ -59,37 +60,12 @@ class ForumView(APIView):
         }
     )
     def post(self, request, format=None):
-        logger.debug('ForumListView.post() invoked...')
+        logger.debug('ForumView.post() invoked...')
         serializer = ForumSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class DiscussionListView(APIView):
-    """
-    List all discussions
-    """
-    #renderer_classes = [JSONRenderer]
-    authentication_classes = [TokenAuthentication]
-
-    @swagger_auto_schema(
-        operation_id="List all discussions",
-        operation_description="List all discussions in a forum. \
-                                 \n- Requires token authentication.",
-        responses={
-            200: DiscussionSerializer(many=True),
-            401: "Unauthorized"
-        }
-    )
-    def get(self, request, forum_id, format=None):
-        logger.debug('DiscussionListView.get(%d) invoked...', forum_id)
-        try:
-            discussion = Discussion.objects.filter(forum_id=forum_id)
-        except Discussion.DoesNotExist:
-            discussion = None
-        serializers = DiscussionSerializer(discussion, many=True)
-        return Response(serializers.data)
 
 class DiscussionView(APIView):
     """
@@ -118,3 +94,34 @@ class DiscussionView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+
+class DiscussionListView(APIView):
+    """
+    List all discussions
+    """
+    #renderer_classes = [JSONRenderer]
+    authentication_classes = [TokenAuthentication]
+
+    @swagger_auto_schema(
+        operation_id="List all discussions",
+        operation_description="List all discussions in a forum. \
+                                 \n- Requires token authentication.",
+        responses={
+            200: DiscussionListSerializer(many=True),
+            401: "Unauthorized"
+        }
+    )
+    def get(self, request, forum_id, format=None):
+        logger.debug('DiscussionListView.get(%d) invoked...', forum_id)
+        try:
+            discussions = Discussion.objects.filter(forum_id=forum_id)
+        except Discussion.DoesNotExist:
+            discussions = None
+        serializer = DiscussionListSerializer(discussions, many=True)
+        return Response(serializer.data)
+        # if serializer.is_valid():
+        #     return Response(serializer.data)
+        # else:
+        #     Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
