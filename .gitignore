@@ -1,5 +1,6 @@
 .DS_Store
 .data/
+env.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
