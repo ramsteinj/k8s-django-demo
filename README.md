@@ -142,7 +142,7 @@ minikube addons enable metrics-server
 minikube addons list
 ~~~
 
-#### How to Start Service
+#### How to Deploy and Start Service
 ~~~bash
 # switch to minikube context
 kubectl config use-context minikube
@@ -152,10 +152,10 @@ minikube start
 
 # Deploy application
 #skaffold dev -v info --port-forward
-./run_local.sh
+./deploy_to_local.sh
 ~~~
 
-#### How to Stop
+#### How to Stop Service and Undeploy
 
 ~~~ bash
 (CTRL-C to stop running application)
