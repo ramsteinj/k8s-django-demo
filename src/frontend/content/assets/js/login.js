@@ -67,12 +67,13 @@ var validateLoginForm = function () {
         // if form is valid then call AJAX script
         if (form_login.valid()) {
             var ajaxRequest = $.ajax({
-                url: 'ajax/login.php',
+                //url: 'ajax/login.php',
+                url: 'http://localhost:8000/api/v1/auth/login/',
                 type: "POST",
+                dataType: "application/json",
                 data: {
                     username: login_username.val(),
-                    password: login_password.val(),
-                    remember: remember
+                    password: login_password.val()
                 },
                 beforeSend: function () {
                 }
@@ -85,9 +86,15 @@ var validateLoginForm = function () {
             });
 
             ajaxRequest.done(function (response) {
+                console.log(JSON.stringify(response));
+
                 // done
                 var $response = $.parseJSON(response);
-                login_result.html('<div class="alert alert-success">' + $response.message + '</div>');
+                login_result.html('<div class="alert alert-success">' + $response.key + '</div>');
+
+                // save token session value
+                var $session_key = $response.key;
+                console.log($session_key);
             });
         }
 
