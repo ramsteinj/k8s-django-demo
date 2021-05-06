@@ -65,9 +65,8 @@ var validateLoginForm = function () {
         var remember = login_remember.is(':checked') ? 1 : 0;
 
         // if form is valid then call AJAX script
-        if (form_login.valid()) {
+/*         if (form_login.valid()) {
             var ajaxRequest = $.ajax({
-                //url: 'ajax/login.php',
                 url: 'http://localhost:8000/api/v1/auth/login/',
                 type: "POST",
                 dataType: "application/json",
@@ -81,20 +80,52 @@ var validateLoginForm = function () {
 
             ajaxRequest.fail(function (data, status, errorThrown) {
                 // error
-                var $message = data.responseText;
+                //var $message = data.responseText;
+                var $message = 'Authentication failed. Please check your username and password.'
                 login_result.html('<div class="alert alert-danger">' + $message + '</div>');
             });
 
             ajaxRequest.done(function (response) {
-                console.log(JSON.stringify(response));
+                console.log(response);
 
                 // done
-                var $response = $.parseJSON(response);
-                login_result.html('<div class="alert alert-success">' + $response.key + '</div>');
+                var $result = $.parseJSON(response);
+                login_result.html('<div class="alert alert-success">' + $result.key + '</div>');
 
                 // save token session value
-                var $session_key = $response.key;
+                var $session_key = $result.key;
                 console.log($session_key);
+            });
+        }
+ */
+        if (form_login.valid()) {
+            var ajaxRequest = $.ajax({
+                url: 'http://localhost:8000/api/v1/auth/login/',
+                type: "POST",
+                //contentType: "application/json",
+                dataType: "json",
+                data: {
+                    username: login_username.val(),
+                    password: login_password.val()
+                },
+                beforeSend: function () {
+                }
+            })
+            .fail(function (data, status, errorThrown) {
+                //var $message = data.responseText;
+                var $message = 'Authentication failed. Please check your username and password.'
+                login_result.html('<div class="alert alert-danger">' + $message + '</div>');
+            })
+            .done(function (data, textStatus, xhr) {
+                //var $result = $.parseJSON(data);
+                var $session_key = data.key;
+                console.log("session_key: " + $session_key);
+
+                if  ($session_key){
+                    login_result.html('<div class="alert alert-success">' + data.key + '</div>');
+                } else  {
+                    login_result.html('<div class="alert alert-danger">System error occured. Please try again.</div>');
+                }
             });
         }
 
