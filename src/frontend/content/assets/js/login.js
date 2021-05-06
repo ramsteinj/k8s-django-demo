@@ -64,7 +64,7 @@ var validateLoginForm = function () {
     form_login.on('submit', function (e) {
         var remember = login_remember.is(':checked') ? 1 : 0;
 
-        if (form_login.valid()) {
+        if (form_login.valid()){
             var ajaxRequest = $.ajax({
                 url: 'http://localhost:8000/api/v1/auth/login/',
                 type: "POST",
@@ -74,7 +74,8 @@ var validateLoginForm = function () {
                     username: login_username.val(),
                     password: login_password.val()
                 },
-                beforeSend: function () {
+                beforeSend: function(){
+                    //xhr.setRequestHeader("Authorization", "Token " + window.sessionStorage.getItem("Token"));
                 }
             })
             .fail(function (data, status, errorThrown) {
