@@ -64,40 +64,6 @@ var validateLoginForm = function () {
     form_login.on('submit', function (e) {
         var remember = login_remember.is(':checked') ? 1 : 0;
 
-        // if form is valid then call AJAX script
-/*         if (form_login.valid()) {
-            var ajaxRequest = $.ajax({
-                url: 'http://localhost:8000/api/v1/auth/login/',
-                type: "POST",
-                dataType: "application/json",
-                data: {
-                    username: login_username.val(),
-                    password: login_password.val()
-                },
-                beforeSend: function () {
-                }
-            });
-
-            ajaxRequest.fail(function (data, status, errorThrown) {
-                // error
-                //var $message = data.responseText;
-                var $message = 'Authentication failed. Please check your username and password.'
-                login_result.html('<div class="alert alert-danger">' + $message + '</div>');
-            });
-
-            ajaxRequest.done(function (response) {
-                console.log(response);
-
-                // done
-                var $result = $.parseJSON(response);
-                login_result.html('<div class="alert alert-success">' + $result.key + '</div>');
-
-                // save token session value
-                var $session_key = $result.key;
-                console.log($session_key);
-            });
-        }
- */
         if (form_login.valid()) {
             var ajaxRequest = $.ajax({
                 url: 'http://localhost:8000/api/v1/auth/login/',
@@ -122,7 +88,11 @@ var validateLoginForm = function () {
                 console.log("session_key: " + $session_key);
 
                 if  ($session_key){
-                    login_result.html('<div class="alert alert-success">' + data.key + '</div>');
+                    // save authentication token to session
+                    window.sessionStorage.setItem("Token", $session_key);
+
+                    //login_result.html('<div class="alert alert-success">' + data.key + '</div>');
+                    window.location.href = "./main.html";
                 } else  {
                     login_result.html('<div class="alert alert-danger">System error occured. Please try again.</div>');
                 }
