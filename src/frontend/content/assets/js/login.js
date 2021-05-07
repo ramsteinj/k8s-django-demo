@@ -92,8 +92,30 @@ var validateLoginForm = function () {
                     // save authentication token to session
                     window.sessionStorage.setItem("Token", $session_key);
 
-                    //login_result.html('<div class="alert alert-success">' + data.key + '</div>');
-                    window.location.href = "./main.html";
+                    // get user info
+                    $.ajax({
+                        url: 'http://localhost:8000/api/v1/auth/user/',
+                        type: "GET",
+                        //contentType: "application/json",
+                        dataType: "json",
+                        data: {
+                        },
+                        beforeSend: function(xhr){
+                            xhr.setRequestHeader("Authorization", "Token " + window.sessionStorage.getItem("Token"));
+                        }
+                    })
+                    .fail(function (data, status, errorThrown) {
+                        var $message = data.responseText;
+                        login_result.html('<div class="alert alert-danger">' + $message + '</div>');
+                    })
+                    .done(function (data, textStatus, xhr) {
+                        var $user_id = data.pk;
+                        console.log("user_id: " + $user_id);
+                        window.sessionStorage.setItem("user_id", $user_id);
+
+                        //login_result.html('<div class="alert alert-success">' + data.key + '</div>');
+                        window.location.href = "./main.html";
+                    });
                 } else  {
                     login_result.html('<div class="alert alert-danger">System error occured. Please try again.</div>');
                 }
