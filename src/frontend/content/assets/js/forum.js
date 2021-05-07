@@ -18,10 +18,11 @@ $.extend($.validation.messages, {
     username: '<i class="fa fa-exclamation-circle"></i> Please enter a valid username.',
 });
 
-// call our 'validateDiscussForm' function when page is ready
+// retrieve datas
 $(document).ready(function () {
     retrieveForum();
     retrieveDiscussions();
+    postDiscussForm();
 });
 
 // retrieve forum info
@@ -112,40 +113,22 @@ var retrieveDiscussions = function () {
     });
 }
 
-/* // bind jQuery validation event and form 'submit' event
-var validateDiscussForm = function () {
-    var form_login = $('#form_discuss');
-
-    // bind jQuery validation event
-    form_login.validate({
-        rules: {
-            input_discussion: {
-                required: true     // username field is required
-            },
-        },
-        messages: {
-            input_discussion: {
-                required: $.validation.messages.required
-            }
-        },
-        errorPlacement: function (error, element) {
-        },
-        invalidHandler: function (event, validator) {
-        }
-    });
-
+// bind jQuery validation event and form 'submit' event
+var postDiscussForm = function () {
+    console.log("postDiscussForm() invoked...");
+    var form_discuss = $('#form_discuss');
     var input_discussion = $('#input_discussion');
 
     // bind form submit event
-    form_login.on('submit', function (e) {
+    form_discuss.on('submit', function (e) {
         if (form_discuss.valid()){
             var ajaxRequest = $.ajax({
                 url: 'http://localhost:8000/api/v1/forum/discussion/',
                 type: "POST",
                 dataType: "json",
                 data: {
-                    user_id: login_username.val(),
-                    forum_id: 1,
+                    user_id: $user_id,
+                    forum_id: $forum_id,
                     discuss: input_discussion.val()
                 },
                 beforeSend: function(xhr){
@@ -153,24 +136,14 @@ var validateDiscussForm = function () {
                 }
             })
             .fail(function (data, status, errorThrown) {
-                //var $message = data.responseText;
-                var $message = 'Authentication failed. Please check your username and password.'
-                login_result.html('<div class="alert alert-danger">' + $message + '</div>');
+                var $message = data.responseText;
+                console.log($message);
             })
             .done(function (data, textStatus, xhr) {
-                //var $result = $.parseJSON(data);
-                var $session_key = data.key;
-                console.log("session_key: " + $session_key);
+                console.log("successfully posted a discussion...");
 
-                if  ($session_key){
-                    // save authentication token to session
-                    window.sessionStorage.setItem("Token", $session_key);
-
-                    //login_result.html('<div class="alert alert-success">' + data.key + '</div>');
-                    window.location.href = "./main.html";
-                } else  {
-                    login_result.html('<div class="alert alert-danger">System error occured. Please try again.</div>');
-                }
+                // refresh window
+                location.reload();
             });
         }
 
@@ -178,4 +151,4 @@ var validateDiscussForm = function () {
         e.preventDefault();
         e.stopPropagation();
     });
-} */
+}
