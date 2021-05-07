@@ -50,6 +50,7 @@ pip install psycopg2
 pip install django-filter
 pip install redis
 pip install django-redis-sessions
+pip install django-cors-headers
 pip install markdown
 pip install -U drf-yasg drf-yasg[validation]
 pip install python-dateutil
