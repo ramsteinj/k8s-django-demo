@@ -19,3 +19,7 @@ var validateSession = function(){
         window.location.href = "./index.html";
     }
 }
+
+window.addEventListener("unload", function() {
+    windows.sessionStorage.removeItem("Token");
+});
