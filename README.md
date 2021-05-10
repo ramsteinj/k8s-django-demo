@@ -74,7 +74,7 @@ Creating and configuring a kubernetes cluster is really simple on Minikube. Just
 
 ~~~bash
 # set memory, cpu and vm driver
-minikube config set memory 8192
+minikube config set memory 16384
 minikube config set cpus 4
 minikube config set vm-driver hyperkit
 
