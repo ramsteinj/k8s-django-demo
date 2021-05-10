@@ -5,7 +5,11 @@ build:
     - context: src
       image: backend
       docker:
-        dockerfile: ./backend/Dockerfile
+        dockerfile: ./backend/Dockerfile.k8s
+    - context: src
+      image: backend-nginx
+      docker:
+        dockerfile: ./backend-nginx/Dockerfile
     - context: src
       image: frontend
       docker:

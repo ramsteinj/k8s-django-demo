@@ -51,8 +51,16 @@ spec:
           - configMapRef:
               name: yogiyo-config
         ports:
-        - name: http-server
+        - name: django-gunicorn
+          containerPort: 8001
+      - name: backend-nginx
+        image: backend-nginx
+        ports:
+        - name: backend-nginx
           containerPort: 8000
+        envFrom:
+          - configMapRef:
+              name: yogiyo-config
         resources:
             requests:
               cpu: "250m"

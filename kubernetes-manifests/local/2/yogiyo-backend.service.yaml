@@ -12,7 +12,10 @@ spec:
   sessionAffinity: ClientIP
   externalTrafficPolicy: Local
   ports:
-    - name: rest-api
+    - name: django-gunicorn
+      port: 8001
+      targetPort: 8001
+    - name: nginx
       port: 8000
       targetPort: 8000
   selector:
