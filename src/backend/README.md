@@ -54,6 +54,8 @@ pip install django-cors-headers
 pip install markdown
 pip install -U drf-yasg drf-yasg[validation]
 pip install python-dateutil
+pip install gunicorn
+
 
 # Save required packages into requirements.txt
 pip freeze > requirements.txt
