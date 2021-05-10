@@ -17,7 +17,7 @@ data:
   BACKEND_VERSION: v1
   BACKEND_HOST: backend.yogiyo-dev.com
   BACKEND_PORT: "80"
-  DJANGO_DEBUG: "True"
+  DJANGO_DEBUG: "False"
   DJANGO_ALLOWED_HOSTS: backend.yogiyo-dev.com
   DJANGO_LOG_PATH: /var/log/containers
   DJANGO_LOG_LEVEL: DEBUG
