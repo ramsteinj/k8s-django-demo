@@ -1,7 +1,3 @@
-# This file creates a job that migrates the Postgres database. The job creates a
-# pod from the specified Docker image, wait for the database to get ready, and
-# run database migration once the Postgres database service is ready to receive
-# connections.
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -28,4 +24,5 @@ spec:
         envFrom:
           - configMapRef:
               name: yogiyo-config
-      restartPolicy: OnFailure
+      restartPolicy: Never
+  backoffLimit: 4
