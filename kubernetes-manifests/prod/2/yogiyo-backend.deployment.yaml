@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: yogiyo
+  name: backend
+  labels:
+    app: yogiyo
+    tier: backend
+spec:
+  progressDeadlineSeconds: 1000
+  selector:
+    matchLabels:
+      app: backend
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+        tier: backend
+    spec:
+      restartPolicy: Always
+      initContainers:
+      # Wait for the database to get ready before starting the server, otherwise
+      # the server will crash
+      - name: check-redis-ready
+        image: redis
+        command: ['sh', '-c', 
+          'until redis-cli -h $(REDIS_HOST) -p $(REDIS_PORT) ping; 
+          do echo waiting for database; sleep 2; done;']
+        envFrom:
+          - configMapRef:
+              name: yogiyo-config
+      - name: check-postgres-ready
+        image: postgres
+        command: ['sh', '-c', 
+          'until pg_isready -h $(POSTGRES_HOST) -p $(POSTGRES_PORT); 
+          do echo waiting for database; sleep 2; done;']
+        envFrom:
+          - configMapRef:
+              name: yogiyo-config
+      containers:
+      - name: backend
+        image: backend
+        env:
+          # setting below to specify pod name in application log
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name          
+        envFrom:
+          - configMapRef:
+              name: yogiyo-config
+        ports:
+        - name: django-gunicorn
+          containerPort: 8001
+      - name: backend-nginx
+        image: backend-nginx
+        ports:
+        - name: backend-nginx
+          containerPort: 8000
+        envFrom:
+          - configMapRef:
+              name: yogiyo-config
+        resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: yogiyo
+  name: redis
+spec:
+  progressDeadlineSeconds: 1000
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+      tier: db
+  template:
+    metadata:
+      labels:
+        app: redis
+        tier: db
+    spec:
+      restartPolicy: Always
+      containers:
+        - image: redis:alpine
+          imagePullPolicy: "IfNotPresent"
+          name: redis
+          command: ['sh', '-c', 'redis-server --requirepass $(REDIS_PASSWORD)']
+          ports:
+            - containerPort: 6379
+          envFrom:
+            - configMapRef:
+                name: yogiyo-config
+          volumeMounts:
+            - mountPath: /data
+              name: redis-storage
+          resources:
+              requests:
+                cpu: "200m"
+                memory: "128Mi"
+              limits:
+                cpu: "400m"
+                memory: "256Mi"
+      volumes:
+        - name: redis-storage
+          persistentVolumeClaim:
+            claimName: redis-pvc

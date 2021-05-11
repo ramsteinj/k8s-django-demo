@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler 
+metadata: 
+  namespace: yogiyo
+  name: backend 
+spec: 
+  maxReplicas: 2
+  minReplicas: 2 
+  scaleTargetRef: 
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60

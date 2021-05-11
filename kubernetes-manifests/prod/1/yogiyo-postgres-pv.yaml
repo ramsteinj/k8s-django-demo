@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: yogiyo
+  name: postgres-pv
+spec:
+  storageClassName: postgres-sc
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  hostPath:
+    path: /data/postgres/
