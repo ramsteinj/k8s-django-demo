@@ -165,10 +165,35 @@ minikube stop
 ~~~
 
 #### How to Test
+Before test, the IP address of Ingress needs to be identified. You can check the IP address of the ingress as following:
 
- - [Frontend](http://localhost:8080)
- - [Backend Swagger](http://localhost:8000/swagger)
- - [Backend Redoc](http://localhost:8000/redoc)
+~~~bash
+kubectl get ingress --namespace=yogiyo
+
+NAME             CLASS    HOSTS                                                                 ADDRESS        PORTS   AGE
+yogiyo-ingress   <none>   yogiyo-local.com,frontend.yogiyo-local.com,backend.yogiyo-local.com   192.168.64.9   80      71s
+~~~
+
+Note that ***192.168.64.9*** is the IP address of the ingress.
+
+Once we identify the IP address of the ingress, we need to register the IP address of the ingress with FQDN (Fully Qualified Domain Name). Open hosts file (/etc/hosts in Linux/MacOS) and add below lines.
+
+~~~ bash
+/etc/hosts
+
+...
+
+# for ingress
+192.168.64.9  yogiyo-local.com
+192.168.64.9  frontend.yogiyo-local.com
+192.168.64.9  backend.yogiyo-local.com
+~~~
+
+After this you can access web frontend as below:
+
+ - [Frontend](http://yogiyo-local.com)
+ - [Backend Swagger](http://backend.yogiyo-local.com/swagger/)
+ - [Backend Redoc](http://backend.yogiyo-local.com/redoc/)
 
 
 ### Production Environment  
