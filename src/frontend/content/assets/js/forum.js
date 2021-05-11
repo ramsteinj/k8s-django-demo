@@ -31,7 +31,7 @@ var retrieveForum = function () {
     var forum_topic = $('#forum_topic');
 
     $.ajax({
-        url: 'http://localhost:8000/api/v1/forum/list/',
+        url: env.BACKEND_ENDPOINT + '/api/v1/forum/list/',
         type: "GET",
         dataType: "json",
         data: {
@@ -82,7 +82,7 @@ var retrieveDiscussions = function () {
     var discussion_list = $('#discussion_list');
 
     $.ajax({
-        url: 'http://localhost:8000/api/v1/forum/' + $forum_id + '/',
+        url: env.BACKEND_ENDPOINT + '/api/v1/forum/' + $forum_id + '/',
         type: "GET",
         dataType: "json",
         data: {
@@ -123,7 +123,7 @@ var postDiscussForm = function () {
     form_discuss.on('submit', function (e) {
         if (form_discuss.valid()){
             var ajaxRequest = $.ajax({
-                url: 'http://localhost:8000/api/v1/forum/discussion/',
+                url: env.BACKEND_ENDPOINT + '/api/v1/forum/discussion/',
                 type: "POST",
                 dataType: "json",
                 data: {

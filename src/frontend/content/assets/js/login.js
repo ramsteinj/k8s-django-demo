@@ -66,7 +66,7 @@ var validateLoginForm = function () {
 
         if (form_login.valid()){
             var ajaxRequest = $.ajax({
-                url: 'http://localhost:8000/api/v1/auth/login/',
+                url: env.BACKEND_ENDPOINT + '/api/v1/auth/login/',
                 type: "POST",
                 //contentType: "application/json",
                 dataType: "json",
@@ -94,7 +94,7 @@ var validateLoginForm = function () {
 
                     // get user info
                     $.ajax({
-                        url: 'http://localhost:8000/api/v1/auth/user/',
+                        url: env.BACKEND_ENDPOINT + '/api/v1/auth/user/',
                         type: "GET",
                         //contentType: "application/json",
                         dataType: "json",
