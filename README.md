@@ -278,8 +278,8 @@ ECRs need to be created via AWS console and its information is as following:
 
 | Repository Name | URI|
 |---|:---:|
-| `yogiyo/backend` | <aws_account_id>.dkr.ecr.<region>.amazonaws.com/yogiyo-forum/backend |
-| `yogiyo/frontend` | <aws_account_id>.dkr.ecr.<region>.amazonaws.com/yogiyo-forum/frontend |
+| `yogiyo/backend` | [aws_account_id].dkr.ecr.[region].amazonaws.com/yogiyo-forum/backend |
+| `yogiyo/frontend` | [aws_account_id].dkr.ecr.[region].amazonaws.com/yogiyo-forum/frontend |
 
 #### Creating kubeconfig of EKS
 
