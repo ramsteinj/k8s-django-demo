@@ -11,15 +11,16 @@ metadata:
   namespace: yogiyo
   name: yogiyo-ingress
   annotations:
-    #nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-name: "ingress-route"
-    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
-    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
-    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/ip-address-type: dualstack
+    kubernetes.io/ingress.class: alb
+    # alb.ingress.kubernetes.io/target-type: ip
+    # alb.ingress.kubernetes.io/subnets: subnet-03cb2be8777e74290, subnet-087e2a227288f7028, subnet-08dbc1142b67a3934
+    # alb.ingress.kubernetes.io/tags: Environment=prod,Team=Prod
+    # alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60
 spec:
   rules:
-    - host: yogiyo-local.com
+    - host: yogiyo-nuno.click
       http:
         paths:
           - path: /
@@ -29,7 +30,7 @@ spec:
                 name: frontend
                 port:
                   number: 8080
-    - host: frontend.yogiyo-local.com
+    - host: frontend.yogiyo-nuno.click
       http:
         paths:
           - path: /
@@ -39,7 +40,7 @@ spec:
                 name: frontend
                 port:
                   number: 8080
-    - host: backend.yogiyo-local.com
+    - host: backend.yogiyo-nuno.click
       http:
         paths:
           - path: /
@@ -48,4 +49,4 @@ spec:
               service:
                 name: backend
                 port:
-                  number: 8000
+                  number: 8001

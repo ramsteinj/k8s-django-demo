@@ -49,3 +49,27 @@ profiles:
           - kubernetes-manifests/local/1/**.yaml
           - kubernetes-manifests/local/2/**.yaml
           - kubernetes-manifests/local/3/**.yaml
+  - name: prod
+    # automatically activate this profile when current context is "minikube"
+    # activation:
+    #   - kubeContext: arn:aws:eks:ap-northeast-2:637107739800:cluster/yogiyo-forum
+    #     command: run
+    build:
+      tagPolicy:
+        #dateTime: {}
+        sha256: {}
+      local:
+        push: true
+        #useDockerCLI: true
+    deploy:
+      # This overrides the progressDeadlineSeconds in every deployment.yaml file
+      statusCheckDeadlineSeconds: 2000
+      kubectl:
+        flags:
+          apply:
+            - "--v=4"
+        manifests:
+          - kubernetes-manifests/prod/0/**.yaml
+          - kubernetes-manifests/prod/1/**.yaml
+          - kubernetes-manifests/prod/2/**.yaml
+          - kubernetes-manifests/prod/3/**.yaml

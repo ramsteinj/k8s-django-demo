@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: yogiyo
+  name: backend-init-job
+spec:
+  template:
+    metadata:
+      name: backend-init-job
+    spec:
+      initContainers:
+      - name: check-postgres-ready
+        image: postgres
+        command: ['sh', '-c', 
+          'until pg_isready -h $(POSTGRES_HOST) -p $(POSTGRES_PORT); 
+          do echo waiting for database; sleep 2; done;']
+        envFrom:
+          - configMapRef:
+              name: yogiyo-config
+      containers:
+      - name: backend-init-job
+        image: backend
+        command: [  "/bin/sh", "-c", "/backend/backend-init.sh" ]
+        envFrom:
+          - configMapRef:
+              name: yogiyo-config
+      restartPolicy: Never
+  backoffLimit: 4

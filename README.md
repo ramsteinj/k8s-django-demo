@@ -242,6 +242,13 @@ brew tap weaveworks/tap
 brew install weaveworks/tap/eksctl
 ~~~
 
+#### heml
+We mainly use kubectl in this sample application - Yigiyo forum, however, heml is required to deploy **Load Balancer Controller** as we use EKS - fargate. You can install helm as below:
+
+~~~bash
+brew install helm
+~~~
+
 #### AWS Configuration and Credential File Settings
 
 AWS account info needs to be configured before we deploy Yogiyo forum app to AWS EKS cluster. Account info can be saved using AWS CLI as below:
@@ -262,7 +269,7 @@ AWS EKS - Fargate is required to deploy Yogiyo forum app. EKS - Fargate cluster 
 
 ~~~ bash
 # create a EKS cluster
-eksctl create cluster --name yogiyo-forum --version 1.19.8 --fargate
+eksctl create cluster --name yogiyo-forum --version 1.19 --fargate
 
 # create a Fargate profile
 eksctl create fargateprofile --cluster yogiyo-forum --name yogiyo-forum-fargate --namespace kube-system
@@ -278,8 +285,55 @@ ECRs need to be created via AWS console and its information is as following:
 
 | Repository Name | URI|
 |---|:---:|
-| `yogiyo/backend` | [aws_account_id].dkr.ecr.[region].amazonaws.com/yogiyo-forum/backend |
-| `yogiyo/frontend` | [aws_account_id].dkr.ecr.[region].amazonaws.com/yogiyo-forum/frontend |
+| `yogiyo-forum/backend` | [aws_account_id].dkr.ecr.ap-northeast-2.amazonaws.com/yogiyo-forum/backend |
+| `yogiyo-forum/backend-nginx` | [aws_account_id].dkr.ecr.ap-northeast-2.amazonaws.com/yogiyo-forum/backend-nginx |
+| `yogiyo-forum/frontend` | [aws_account_id].dkr.ecr.ap-northeast-2.amazonaws.com/yogiyo-forum/frontend |
+
+#### Setting EKS - Fargate Logging
+
+Amazon EKS with Fargate supports a built-in log router, which means there are no sidecar containers to install or maintain. There are few options to handle log, but we will use CloudWatch in this Yogiyo forum application as it is the simplest.
+
+In order to route logs to CloudWatch, follow the below steps:
+
+~~~bash
+# Move to the project root directory
+cd k8s-django-demo
+
+# Deploy aws-logging settings
+kubectl apply -f kubernetes-manifests/aws-logging/aws-observability-namespace.yaml
+kubectl apply -f kubernetes-manifests/aws-logging/aws-logging-cloudwatch-configmap.yaml
+
+# Download the CloudWatch IAM policy to your computer
+curl -o permissions.json https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json
+
+# Create an IAM Policy
+aws iam create-policy --policy-name yogiyo-forum-logging-policy --policy-document file://permissions.json
+
+# Attach the IAM policy to the pod execution role specified for your Fargate profile
+# You need to set [aws_account_id] and change the pod execution role name
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::[aws_account_id]:policy/yogiyo-forum-logging-policy \
+  --role-name eksctl-yogiyo-forum-cluste-FargatePodExecutionRole-WSAP78F4N1T3
+~~~
+
+
+Refer to below for more detail:
+
+- [Fargate Logging](https://docs.aws.amazon.com/eks/latest/userguide/fargate-logging.html)
+
+#### Editing deploy-to-prod.sh
+
+Once eks - fargate cluster and repositories are created, now we need to edit k8s-django-demo/deploy-to-prod.sh file. Open the file and set EKS cluster arn and ECR repository URL as below:
+
+~~~bash
+#!/bin/sh
+
+# switch to EKS - Fargate context
+kubectl config use-context arn:aws:eks:ap-northeast-2:[aws_accoun_id]:cluster/yogiyo-forum
+
+# prepare to deploy application to EKS
+skaffold run -v info -p=prod --default-repo [aws_account_id].dkr.ecr.ap-northeast-2.amazonaws.com/yogiyo-forum
+~~~
 
 #### Creating kubeconfig of EKS
 
@@ -289,7 +343,7 @@ kubeconfig file is required to set and switch **kubernetes context**. Use the AW
 aws eks --region ap-northeast-2 update-kubeconfig --name yogiyo-forum
 ~~~
 
-> Note: **arn:aws:eks:ap-northeast-2:<aws_account_id>:cluster/yogiyo-forum** kubernetes context will be created via above command.
+> Note: **arn:aws:eks:ap-northeast-2:[aws_account_id]:cluster/yogiyo-forum** kubernetes context will be created via above command.
 
 #### Deploying the Metrics Server
 
@@ -326,7 +380,7 @@ Deploy the ExternalDNS with the following command:
 
 1. Register domain name to Route53
 
-    Register test.yogiyo.com for Yogiyo forum application. (Or we can use what is available for the Yogiyo forum app)
+    Register **yogiyo-nuno.click** for Yogiyo forum application. (Or we can use what is available for the Yogiyo forum app)
 
 2. Create an IAM policy
 
@@ -359,7 +413,14 @@ Deploy the ExternalDNS with the following command:
     }    
     ~~~
 
-3. Create an IAM role. Make sure to change **IAM_policy_ARN**.
+3. Create an **IAM OIDC provider** for your cluster.
+    
+    Follow the below instruction to create:
+
+    [Instruction](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
+
+
+4. Create an IAM role. Make sure to change **IAM_policy_ARN**.
 
     ~~~ bash
     # Create IAM Role
@@ -372,7 +433,13 @@ Deploy the ExternalDNS with the following command:
         --override-existing-serviceaccounts
     ~~~
 
-4. Deploy the ExternalDNS. Make sure to change "--domain-filter" and "--txt-owner-id=" in the external-dns.yaml file.
+5. Set up a hosted zone.
+
+    ~~~bash
+    aws route53 create-hosted-zone --name "external-dns-yogiyo-nuno.click." --caller-reference "external-dns-test-$(date +%s)"
+    ~~~
+
+6. Deploy the ExternalDNS. Make sure to change **--domain-filter** and **--txt-owner-id** in the external-dns.yaml file.
 
     ~~~ bash
     # Move to the project root directory
@@ -388,9 +455,60 @@ Refer to below for more detail:
 
 #### Configuring AWS Load Balancer Controller
 
-Before create and use kubernetes Ingress in AWS EKS, AWS Load Balancer Controller (formerly known as "AWS ALB Ingress Controller") must be deployed. Follow the guide for the deployment.
+Before create and use kubernetes Ingress in AWS EKS, AWS Load Balancer Controller (formerly known as "AWS ALB Ingress Controller") must be deployed. Follow the below for the deployment.
+
+~~~bash
+# Download IAM policy for the AWS Load Balancer Controller
+curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/iam_policy.json
+
+# Create an IAM policy called AWSLoadBalancerControllerIAMPolicy
+aws iam create-policy \
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document file://iam-policy.json
+
+# Take note of the policy ARN that is returned
+# Create a IAM role and ServiceAccount for the AWS Load Balancer controller, use the ARN from the step above
+eksctl create iamserviceaccount \
+--cluster=yogiyo-forum \
+--namespace=kube-system \
+--name=aws-load-balancer-controller \
+--attach-policy-arn=arn:aws:iam::[AWS_ACCOUNT_ID]:policy/AWSLoadBalancerControllerIAMPolicy \
+--override-existing-serviceaccounts \
+--approve
+
+# Deploy controller to cluster
+# 1. Add the EKS chart repo to helm
+helm repo add eks https://aws.github.io/eks-charts
+
+# 2. Install the TargetGroupBinding CRDs
+kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+
+# NOTE: The clusterName value must be set either via the values.yaml or the Helm command line. The <k8s-cluster-name> in the command
+# below should be replaced with name of your k8s cluster before running it.
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --namespace=kube-system --set clusterName=yogiyo-forum --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
+
+
+# 3. Install the helm chart
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller --namespace=kube-system --set clusterName=yogiyo-forum
+~~~
+
+
+Refer to below for more detail:
 
 - [Deployment Guide](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/)
+
+#### Setting Sticky Sessions
+
+
+
+Refer to below for more detail:
+
+- [Setting Guide](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/sticky-sessions.html)
+
+#### Creating EFS for DBs
+
+xxxxxx
+
 
 #### Deploying Kubernetes Dashboard
 

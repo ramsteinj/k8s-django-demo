@@ -15,9 +15,9 @@ data:
   REDIS_PASSWORD: yogiyo1234
   REDIS_PORT: "6379"
   BACKEND_VERSION: v1
-  BACKEND_HOST: backend.yogiyo-dev.com
+  BACKEND_HOST: backend.yogiyo-nuno.click
   BACKEND_PORT: "80"
   DJANGO_DEBUG: "False"
-  DJANGO_ALLOWED_HOSTS: backend.yogiyo-dev.com
+  DJANGO_ALLOWED_HOSTS: backend.yogiyo-nuno.click
   DJANGO_LOG_PATH: /var/log/containers
   DJANGO_LOG_LEVEL: DEBUG
