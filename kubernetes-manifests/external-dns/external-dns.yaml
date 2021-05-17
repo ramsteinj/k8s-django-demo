@@ -6,7 +6,8 @@ metadata:
   # Otherwise, you may safely omit it.
   annotations:
     # Substitute your account ID and IAM service role name below.
-    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT-ID:role/IAM-SERVICE-ROLE-NAME
+    #eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT-ID:role/IAM-SERVICE-ROLE-NAME
+    eks.amazonaws.com/role-arn: arn:aws:iam::637107739800:role/eksctl-yogiyo-forum-addon-iamserviceaccount-Role1-4N0MN16CT8CQ
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
@@ -53,7 +54,7 @@ spec:
       # If you're using kiam or kube2iam, specify the following annotation.
       # Otherwise, you may safely omit it.
       annotations:
-        iam.amazonaws.com/role: arn:aws:iam::ACCOUNT-ID:role/IAM-SERVICE-ROLE-NAME
+        iam.amazonaws.com/role: arn:aws:iam::637107739800:role/eksctl-yogiyo-forum-addon-iamserviceaccount-Role1-4N0MN16CT8CQ
     spec:
       serviceAccountName: external-dns
       containers:
@@ -67,6 +68,6 @@ spec:
         - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
         - --aws-zone-type=public # only look at public hosted zones (valid values are public, private or no value for both)
         - --registry=txt
-        - --txt-owner-id=Z0357837RRQR9EGH003A
+        - --txt-owner-id=Z0391615IR2FFZSCK2UP
       securityContext:
         fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes and AWS token files
