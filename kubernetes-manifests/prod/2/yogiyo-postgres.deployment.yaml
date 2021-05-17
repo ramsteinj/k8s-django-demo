@@ -31,11 +31,11 @@ spec:
               name: postgres-storage
           resources:
               requests:
-                cpu: "500m"
-                memory: "256Mi"
+                cpu: 1
+                memory: 2G
               limits:
-                cpu: "1000m"
-                memory: "1Gi"
+                cpu: 2
+                memory: 4G
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:

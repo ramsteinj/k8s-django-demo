@@ -32,11 +32,11 @@ spec:
               name: redis-storage
           resources:
               requests:
-                cpu: "200m"
-                memory: "128Mi"
+                cpu: 0.5
+                memory: 1G
               limits:
-                cpu: "400m"
-                memory: "256Mi"
+                cpu: 1
+                memory: 2G
       volumes:
         - name: redis-storage
           persistentVolumeClaim:

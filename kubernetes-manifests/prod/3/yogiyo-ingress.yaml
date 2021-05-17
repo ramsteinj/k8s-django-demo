@@ -11,29 +11,30 @@ metadata:
   namespace: yogiyo
   name: yogiyo-ingress
   annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/ip-address-type: dualstack
     kubernetes.io/ingress.class: alb
-    # alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/subnets: subnet-03cb2be8777e74290, subnet-087e2a227288f7028, subnet-08dbc1142b67a3934
-    # alb.ingress.kubernetes.io/tags: Environment=prod,Team=Prod
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/subnets: subnet-092d28600750a7ff8, subnet-0018f3a52a7caf9f8, subnet-046b745c6722db034
     # alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60
+    external-dns.alpha.kubernetes.io/hostname: yogiyo-nuno.click
+    # alb.ingress.kubernetes.io/ip-address-type: dualstack
+    # alb.ingress.kubernetes.io/tags: Environment=prod,Team=Prod
 spec:
   rules:
     - host: yogiyo-nuno.click
       http:
         paths:
-          - path: /
+          - path: /*
             pathType: Prefix
             backend:
               service:
                 name: frontend
                 port:
                   number: 8080
-    - host: frontend.yogiyo-nuno.click
+    - host: www.yogiyo-nuno.click
       http:
         paths:
-          - path: /
+          - path: /*
             pathType: Prefix
             backend:
               service:
@@ -43,7 +44,7 @@ spec:
     - host: backend.yogiyo-nuno.click
       http:
         paths:
-          - path: /
+          - path: /*
             pathType: Prefix
             backend:
               service:
