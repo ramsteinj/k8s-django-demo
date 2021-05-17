@@ -439,7 +439,7 @@ Deploy the ExternalDNS with the following command:
     aws route53 create-hosted-zone --name "external-dns-yogiyo-nuno.click." --caller-reference "external-dns-test-$(date +%s)"
     ~~~
 
-6. Deploy the ExternalDNS. Make sure to change **--domain-filter** and **--txt-owner-id** in the external-dns.yaml file.
+6. Deploy the ExternalDNS. Make sure to change **eks.amazonaws.com/role-arn**, **--domain-filter** and **--txt-owner-id** in the external-dns.yaml file.
 
     ~~~ bash
     # Move to the project root directory
