@@ -1,13 +1,23 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  namespace: yogiyo
+  name: postgres-sc
+provisioner: efs.csi.aws.com
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   namespace: yogiyo
   name: postgres-pv
 spec:
-  storageClassName: postgres-sc
-  accessModes:
-    - ReadWriteOnce
   capacity:
-    storage: 10Gi
-  hostPath:
-    path: /data/postgres/
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: postgres-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-fab9099a

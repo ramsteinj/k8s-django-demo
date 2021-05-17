@@ -1,13 +1,23 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  namespace: yogiyo
+  name: redis-sc
+provisioner: efs.csi.aws.com
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   namespace: yogiyo
   name: redis-pv
 spec:
-  storageClassName: redis-sc
-  accessModes:
-    - ReadWriteOnce
   capacity:
     storage: 1Gi
-  hostPath:
-    path: /data/redis/
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: redis-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-fdb9099d

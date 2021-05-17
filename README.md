@@ -500,16 +500,19 @@ Refer to below for more detail:
 
 #### Setting Sticky Sessions
 
-
-
 Refer to below for more detail:
 
 - [Setting Guide](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/sticky-sessions.html)
 
 #### Creating EFS for DBs
 
-xxxxxx
+Unlike minikube, storag class with **hostPath** cannot be used in production environment. We need to create EFSs for postgres and redis - fargate as below guide. Make sure to choose right VPC that EKS - fargate cluster has.
 
+- [Creating EFS](https://docs.aws.amazon.com/efs/latest/ug/gs-step-two-create-efs-resources.html)
+
+Once created, you need to add 2 security groups of EKS - fargate cluster to each created EFS. (One is "eks-cluster-sg-yogiyo-forum-XXXXXX" and the other one is "eksctl-yogiyo-forum-cluster-ControlePlaneSecurityGroup-XXXXXXX".)
+
+Finally, open ./kubernetes-manifests/prod/1/yogiyo-porstgres-pv.yaml and yogiyo-redis-pv.yaml and change the value of "volumeHandle" to the ID of each EFS.
 
 #### Deploying Kubernetes Dashboard
 
