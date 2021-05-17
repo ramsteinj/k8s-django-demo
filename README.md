@@ -483,13 +483,14 @@ helm repo add eks https://aws.github.io/eks-charts
 # 2. Install the TargetGroupBinding CRDs
 kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
 
-# NOTE: The clusterName value must be set either via the values.yaml or the Helm command line. The <k8s-cluster-name> in the command
-# below should be replaced with name of your k8s cluster before running it.
-helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --namespace=kube-system --set clusterName=yogiyo-forum --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
-
-
 # 3. Install the helm chart
-helm install aws-load-balancer-controller eks/aws-load-balancer-controller --namespace=kube-system --set clusterName=yogiyo-forum
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+    --namespace=kube-system \
+    --set clusterName=yogiyo-forum \
+    --set region=ap-northeast-2 \
+    --set vpcId=<vpc-id> \
+    --set serviceAccount.create=false \
+    --set serviceAccount.name=aws-load-balancer-controller
 ~~~
 
 
