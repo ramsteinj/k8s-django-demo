@@ -190,6 +190,8 @@ After this you can access web frontend as below:
  - [Backend Swagger](http://backend.yogiyo-local.com/swagger/)
  - [Backend Redoc](http://backend.yogiyo-local.com/redoc/)
 
+> Access Accounts: admin/password1234, bob/password1234, james/password1234
+
 
 ## Deployment - Production Environment
 
@@ -498,12 +500,6 @@ Refer to below for more detail:
 
 - [Deployment Guide](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/)
 
-#### Setting Sticky Sessions
-
-Refer to below for more detail:
-
-- [Setting Guide](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/sticky-sessions.html)
-
 #### Creating EFS for DBs
 
 Unlike minikube, storag class with **hostPath** cannot be used in production environment. We need to create EFSs for postgres and redis - fargate as below guide. Make sure to choose right VPC that EKS - fargate cluster has.
@@ -525,10 +521,13 @@ cd k8s-django-demo
 ./deploy-to-prod.sh
 ~~~
 
-### How to Test
+### How to Access
 
- - [Frontend](http://frontend.test.yogiyo.com)
+ - [Frontend](http://yogiyo-nuno.click)
+ - [Backend Swagger](http://backend.yogiyo-nuno.click/swagger)
+ - [Backend Redoc](http://backend.yogiyo-nuno.click/redoc)
 
+> Access Accounts: admin/password1234, bob/password1234, james/password1234
 
 ### How to Stop & Undeploy
 
