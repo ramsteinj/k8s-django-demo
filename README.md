@@ -200,7 +200,7 @@ Skaffold has a pluggable architecture that allows you to choose which tools you 
 <p align="center">[Figure 3: Build and Deployment Process]</p>
 
 ![Logical Architecture](./doc/images/logical_architecture_prod.png)
-<p align="center">[Figure 4: Build and Deployment Process]</p>
+<p align="center">[Figure 4: Logical Architecture]</p>
 
 ![Deployment Architecture](./doc/images/deployment_architecture.png)
 <p align="center">[Figure 5: Deployment Architecture]</p>
