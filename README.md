@@ -514,6 +514,21 @@ Finally, open ./kubernetes-manifests/prod/1/yogiyo-porstgres-pv.yaml and yogiyo-
 
 Follow the instructions in https://github.com/kubernetes/dashboard
 
+Once deployed, execute following commands.
+
+~~~bash
+# switch to EKS - Fargate context
+kubectl config use-context arn:aws:eks:ap-northeast-2:[AWS_ACCOUNT_ID]:cluster/yogiyo-forum
+
+# Execute proxy
+kubectl proxy
+~~~
+
+And then access to the dashboard via below URL:
+
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+
+
 ### How to Deploy & Start or Rolling Update
 
 ~~~bash
