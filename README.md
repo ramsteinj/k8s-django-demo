@@ -17,11 +17,8 @@ Also, there are terraform configurations to create **EKS - Fargate** (serverless
 ![Logical Architecture](./doc/images/logical_architecture.png)
 <p align="center">[Figure 1: Logical Architecture]</p>
 
-![Deployment Architecture](./doc/images/deployment_architecture.png)
-<p align="center">[Figure 2: Deployment Architecture]</p>
-
 ![Kubernetes Diagram](./doc/images/kubernetes_diagram.png)
-<p align="center">[Figure 3: Kubernetes Diagram]</p>
+<p align="center">[Figure 2: Kubernetes Diagram]</p>
 
 ## Prerequisites
 
@@ -200,10 +197,13 @@ AWS EKS - Fargate is being used for production deployment environment and Yogiyo
 Skaffold has a pluggable architecture that allows you to choose which tools you want to use. Yogiyo forum is built with the container locally using the Docker daemon, push it to an ECR registry, and deploy it to EKS by applying a Kubernetes manifest.
 
 ![Build and Deployment Process](./doc/images/deployment_process.png)
-<p align="center">[Figure 4: Build and Deployment Process]</p>
+<p align="center">[Figure 3: Build and Deployment Process]</p>
 
 ![Logical Architecture](./doc/images/logical_architecture_prod.png)
-<p align="center">[Figure 5: Build and Deployment Process]</p>
+<p align="center">[Figure 4: Build and Deployment Process]</p>
+
+![Deployment Architecture](./doc/images/deployment_architecture.png)
+<p align="center">[Figure 5: Deployment Architecture]</p>
 
 
 Follow below steps in order to deploy entire kubernetes based Yogiyo forum.
