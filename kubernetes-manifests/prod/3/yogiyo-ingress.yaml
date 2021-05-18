@@ -15,7 +15,7 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/subnets: subnet-092d28600750a7ff8, subnet-0018f3a52a7caf9f8, subnet-046b745c6722db034
-    # alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60
     external-dns.alpha.kubernetes.io/hostname: yogiyo-nuno.click
     # alb.ingress.kubernetes.io/ip-address-type: dualstack
     # alb.ingress.kubernetes.io/tags: Environment=prod,Team=Prod
