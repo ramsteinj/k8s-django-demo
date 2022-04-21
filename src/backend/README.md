@@ -6,6 +6,7 @@ Install required softwares as below:
 
 ~~~bash
 # Install required softwares
+brew install openssl
 brew install python3
 brew install postgresql
 brew install redis

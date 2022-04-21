@@ -1,5 +1,5 @@
 # Create container
-FROM python:3
+FROM python:3.9
 ENV PYTHONUNBUFFERED 1
 RUN mkdir -p /var/log/containers
 RUN mkdir /backend
