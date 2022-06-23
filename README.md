@@ -1,19 +1,22 @@
 # k8s-django-demo
+
 This is a simple forum application to demonstrate how kubernetes is useful for Devs in developing services not relying on Ops as much as possible.
 
 This project contains application source code along with the following kubernetes objects:
- - **Ingress** (Router)
- - ~~**NetworkPolicy** (Firewall)~~
- - **Service** (Load Balancer)
- - **ConfigMap** (for non-confidential key-value data repository)
- - **PersistentVolume/PersistentVolumeClaim** (Storage)
- - **Deployment** (for frontend, backend, database Pods)
- - ~~**StatefulSet** (for db cluster)~~
- - **HorizontalPodAutoscaler** (for auto scailing)
+
+- **Ingress** (Router)
+- ~~**NetworkPolicy** (Firewall)~~
+- **Service** (Load Balancer)
+- **ConfigMap** (for non-confidential key-value data repository)
+- **PersistentVolume/PersistentVolumeClaim** (Storage)
+- **Deployment** (for frontend, backend, database Pods)
+- ~~**StatefulSet** (for db cluster)~~
+- **HorizontalPodAutoscaler** (for auto scailing)
 
 Also, there are terraform configurations to create **EKS - Fargate** (serverless k8s cluster).
 
 ## Architecture
+
 ![Logical Architecture](./doc/images/logical_architecture.png)
 <p align="center">[Figure 1: Logical Architecture]</p>
 
@@ -22,21 +25,23 @@ Also, there are terraform configurations to create **EKS - Fargate** (serverless
 
 ## Prerequisites
 
- - **Hyperkit**: ```brew install hyperkit```
- - **Minikube**: ```brew install minikube```
- - **kubectl**: ```brew install kubernetes-cli```
- - **Skaffold**: ```brew install skaffold```
- - **Visual Studio Code**: ```brew install --cask visual-studio-code```
- - **Python VSCode Extension**: [Installation](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
- - **Cloud Code VSCode Extension**: [Installation](https://marketplace.visualstudio.com/items?itemName=GoogleCloudTools.cloudcode)
- 
+- **Minikube Driver**
+  - Intel Chip: ```brew install hyperkit```
+  - Apple Chip: [Docker](https://docs.docker.com/desktop/mac/install/)
+- **Minikube**: ```brew install minikube```
+- **kubectl**: ```brew install kubernetes-cli```
+- **Skaffold**: ```brew install skaffold```
+- **Visual Studio Code**: ```brew install --cask visual-studio-code```
+- **Python VSCode Extension**: [Installation](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+- **Cloud Code VSCode Extension**: [Installation](https://marketplace.visualstudio.com/items?itemName=GoogleCloudTools.cloudcode)
 
 ## Project Directory Structure
+
 Below is a project directory structure.
 
 > Note: you do not need to follow this structure exactly but this is a suggestion by google.
 
-~~~
+~~~ bash
 .
 |---- doc
 |     |---- images
@@ -52,22 +57,33 @@ Below is a project directory structure.
 ~~~
 
 Each directory contains:
- - **doc**: documents and images that are not relavant to any part of service
- - **terraform-configurations**: terraform files to create/manage VPC, EKS - Fargate, etc.
- - **kubernetes-manifests**: all kubernetes objects such as Ingress, Deployments, etc.
- - **src**: source code directory for backend and frontend. Typically this is a root directory of non kubernetes project.
+
+- **doc**: documents and images that are not relavant to any part of service
+- **terraform-configurations**: terraform files to create/manage VPC, EKS - Fargate, etc.
+- **kubernetes-manifests**: all kubernetes objects such as Ingress, Deployments, etc.
+- **src**: source code directory for backend and frontend. Typically this is a root directory of non kubernetes project.
 
 ## Deployment - Local Environment
 
 Minikube is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a Virtual Machine (VM) on your laptop for users looking to try out Kubernetes or develop with it day-to-day.
 
+### Configuring Docker Desktop (Apple Chip Only)
+
+We need to increase allocated resources to Docker Desktop in order to use minikube with. Increase CPUs, Memory and Swap to 6 core, 16GB and 2GB as below at the preferences of Docker Desktop.
+
+![Resources that Docker Desktop uses](./doc/images/docker_desktop.png)
+<p align="center">[Preferences - Resources, Docker Desktop]</p>
+
 ### Configuring a Kubernetes Cluster
+
 Creating and configuring a kubernetes cluster is really simple on Minikube. Just run following commands:
 
 ~~~bash
 # set memory, cpu and vm driver
 minikube config set memory 8192
 minikube config set cpus 4
+
+# Intel chip only
 minikube config set vm-driver hyperkit
 
 # increase minikube disk size, default is 2GB
@@ -81,11 +97,14 @@ minikube config view
 ~~~
 
 ### Creating and Starting a Kubernetes Cluster
+
 Run below command in order to execute a kubernetes cluster using minikube.
 
 ~~~ bash
 minikube start
 ~~~
+
+#### Using built-in docker deamon
 
 When using a single VM for Kubernetes, it’s useful to reuse Minikube’s built-in Docker daemon. Reusing the built-in daemon means you don’t have to build a Docker registry on your host machine and push the image into it. Instead, you can build inside the same Docker daemon as Minikube, which speeds up local experiments.
 
@@ -119,6 +138,7 @@ docker ps
 For more information regarding minikube and kubernetes, refer to [Installing Kubernetes with Minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/).
 
 ### Enabling Required Minikube Addons
+
 In order to use minikube addons such as dashboard and ingress, addons neeed to be enabled as below:
 
 ~~~ bash
@@ -135,6 +155,7 @@ minikube addons list
 ~~~
 
 ### How to Deploy and Start Service
+
 ~~~bash
 # switch to minikube context
 kubectl config use-context minikube
@@ -157,6 +178,7 @@ minikube stop
 ~~~
 
 ### How to Test
+
 Before test, the IP address of Ingress needs to be identified. You can check the IP address of the ingress as following:
 
 ~~~bash
@@ -183,12 +205,11 @@ Once we identify the IP address of the ingress, we need to register the IP addre
 
 After this you can access web frontend as below:
 
- - [Frontend](http://yogiyo-local.com)
- - [Backend Swagger](http://backend.yogiyo-local.com/swagger/)
- - [Backend Redoc](http://backend.yogiyo-local.com/redoc/)
+- [Frontend](http://yogiyo-local.com)
+- [Backend Swagger](http://backend.yogiyo-local.com/swagger/)
+- [Backend Redoc](http://backend.yogiyo-local.com/redoc/)
 
 > Access Accounts: admin/password1234, bob/password1234, james/password1234
-
 
 ## Deployment - Production Environment
 
@@ -204,7 +225,6 @@ Skaffold has a pluggable architecture that allows you to choose which tools you 
 
 ![Deployment Architecture](./doc/images/deployment_architecture.png)
 <p align="center">[Figure 5: Deployment Architecture]</p>
-
 
 Follow below steps in order to deploy entire kubernetes based Yogiyo forum.
 
@@ -241,6 +261,7 @@ And add the following to the contents of your ```~/.docker/config.json``` file:
 ~~~
 
 #### eksctl
+
 eksctl is required in order to create and manage EKS cluster. Install eksctl as below:
 
 ~~~bash
@@ -249,6 +270,7 @@ brew install weaveworks/tap/eksctl
 ~~~
 
 #### heml
+
 We mainly use kubectl in this sample application - Yigiyo forum, however, heml is required to deploy **Load Balancer Controller** as we use EKS - fargate. You can install helm as below:
 
 ~~~bash
@@ -322,7 +344,6 @@ aws iam attach-role-policy \
   --role-name eksctl-yogiyo-forum-cluste-FargatePodExecutionRole-WSAP78F4N1T3
 ~~~
 
-
 Refer to below for more detail:
 
 - [Fargate Logging](https://docs.aws.amazon.com/eks/latest/userguide/fargate-logging.html)
@@ -369,7 +390,7 @@ The Kubernetes Metrics Server is an aggregator of resource usage data in your cl
     kubectl get deployment metrics-server -n kube-system
     ~~~
 
-    Output 
+    Output
 
     ~~~ console
     NAME             READY   UP-TO-DATE   AVAILABLE   AGE
@@ -420,11 +441,10 @@ Deploy the ExternalDNS with the following command:
     ~~~
 
 3. Create an **IAM OIDC provider** for your cluster.
-    
+  
     Follow the below instruction to create:
 
     [Instruction](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
-
 
 4. Create an IAM role. Make sure to change **IAM_policy_ARN**.
 
@@ -516,7 +536,7 @@ Finally, open ./kubernetes-manifests/prod/1/yogiyo-porstgres-pv.yaml and yogiyo-
 
 #### Deploying Kubernetes Dashboard
 
-Follow the instructions in https://github.com/kubernetes/dashboard
+Follow the instructions in [kubernetes dashboard](https://github.com/kubernetes/dashboard).
 
 Once deployed, execute following commands.
 
@@ -530,8 +550,7 @@ kubectl proxy
 
 And then access to the dashboard via below URL:
 
-http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
-
+[http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
 
 ### How to Deploy & Start or Rolling Update
 
@@ -542,9 +561,9 @@ cd k8s-django-demo
 
 ### How to Access
 
- - [Frontend](http://yogiyo-nuno.click)
- - [Backend Swagger](http://backend.yogiyo-nuno.click/swagger)
- - [Backend Redoc](http://backend.yogiyo-nuno.click/redoc)
+- [Frontend](http://yogiyo-nuno.click)
+- [Backend Swagger](http://backend.yogiyo-nuno.click/swagger)
+- [Backend Redoc](http://backend.yogiyo-nuno.click/redoc)
 
 > Access Accounts: admin/password1234, bob/password1234, james/password1234
 
