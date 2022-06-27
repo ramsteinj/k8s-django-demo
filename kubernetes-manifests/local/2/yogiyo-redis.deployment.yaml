@@ -18,7 +18,7 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-        - image: redis:alpine
+        - image: redis:latest
           imagePullPolicy: "IfNotPresent"
           name: redis
           command: ['sh', '-c', 'redis-server --requirepass $(REDIS_PASSWORD)']

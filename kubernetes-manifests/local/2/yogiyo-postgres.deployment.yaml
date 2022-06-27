@@ -18,7 +18,7 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-        - image: postgres:11.6
+        - image: postgres:latest
           imagePullPolicy: "IfNotPresent"
           name: postgres
           ports:
