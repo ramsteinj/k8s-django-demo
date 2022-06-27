@@ -157,7 +157,7 @@ minikube addons enable metrics-server
 minikube addons list
 ~~~
 
-### How to Deploy and Start Service
+### How to Start Service
 
 ~~~bash
 # switch to minikube context
@@ -165,14 +165,39 @@ kubectl config use-context minikube
 
 # Start minikube first
 minikube start
+~~~
 
-# Start minikube tunnel (Apple chip only). 
-# Be sure that system password will be asked when deploy_to_local.sh is executed so run below command at different terminal.
-minikube tunnel
+### Running minikube tunnel (Apple chip only)
 
+```minikube tunnel``` is required for ingress to work on the docker driver and that's the currently only driver on M1 Mac. Execute minikube tunnel as following:
+
+~~~bash
+# Execute minikube tunnel
+Command Prompt> minikube tunnel
+
+✅  Tunnel successfully started
+
+📌  NOTE: Please do not close this terminal as this process must stay alive for the tunnel to be accessible ...
+
+🏃  backend 서비스의 터널을 시작하는 중
+🏃  frontend 서비스의 터널을 시작하는 중
+❗  The service/ingress yogiyo-ingress requires privileged ports to be exposed: [80 443]
+🔑  sudo permission will be asked for it.
+🏃  yogiyo-ingress 서비스의 터널을 시작하는 중
+Password:
+~~~
+
+You will be asked the system password to run and you need to keep the tunnel working so execute above command at different terminal.
+
+Please refer to [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) for more information.
+
+### How to Deploy
+
+~~~bash
 # Deploy application
 ./deploy_to_local.sh
 ~~~
+
 
 ### How to Stop Service and Undeploy
 
