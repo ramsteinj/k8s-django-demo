@@ -86,6 +86,9 @@ minikube config set cpus 4
 # Intel chip only
 minikube config set vm-driver hyperkit
 
+# Apple chip only
+minikube config set driver docker
+
 # increase minikube disk size, default is 2GB
 minikube config set disk-size 20240
 ~~~
@@ -163,8 +166,11 @@ kubectl config use-context minikube
 # Start minikube first
 minikube start
 
+# Start minikube tunnel (Apple chip only). 
+# Be sure that system password will be asked when deploy_to_local.sh is executed so run below command at different terminal.
+minikube tunnel
+
 # Deploy application
-#skaffold dev -v info --port-forward
 ./deploy_to_local.sh
 ~~~
 
@@ -177,7 +183,7 @@ minikube start
 minikube stop
 ~~~
 
-### How to Test
+### Register yogiyo-local domain to /etc/hosts (Intel chip)
 
 Before test, the IP address of Ingress needs to be identified. You can check the IP address of the ingress as following:
 
@@ -202,6 +208,23 @@ Once we identify the IP address of the ingress, we need to register the IP addre
 192.168.64.9  frontend.yogiyo-local.com
 192.168.64.9  backend.yogiyo-local.com
 ~~~
+
+### Register yogiyo-local domain to /etc/hosts (Apple chip)
+
+```minikube tunnel``` is required for ingress to work on the docker driver and that's currently only driver on M1 Mac.
+
+~~~ bash
+/etc/hosts
+
+...
+
+# for ingress
+127.0.0.1  yogiyo-local.com
+127.0.0.1  frontend.yogiyo-local.com
+127.0.0.1  backend.yogiyo-local.com
+~~~
+
+### How to Test
 
 After this you can access web frontend as below:
 
