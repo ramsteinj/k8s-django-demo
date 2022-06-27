@@ -173,7 +173,8 @@ minikube start
 
 ~~~bash
 # Execute minikube tunnel
-Command Prompt> minikube tunnel
+# Sometimes minikube does not clean up the tunnel network properly. To force a proper cleanup
+Command Prompt> minikube tunnel --cleanup
 
 ✅  Tunnel successfully started
 
