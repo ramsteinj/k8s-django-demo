@@ -151,6 +151,7 @@ minikube addons list
 # enable specific addon
 minikube addons enable dashboard
 minikube addons enable ingress
+minikube addons enable ingress-dns
 minikube addons enable metrics-server
 
 # check above addons are enabled properly
